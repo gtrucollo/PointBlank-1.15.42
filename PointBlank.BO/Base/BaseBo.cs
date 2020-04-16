@@ -135,8 +135,9 @@
                     // Cancelar transação
                     this.CancelarTransacao();
                 }
-                catch
+                catch (Exception exp)
                 {
+                    Logger.Error(exp, "[BaseBo] Erro ao cancelar a transação (GravarTransacao)", true);
                 }
 
                 throw;
