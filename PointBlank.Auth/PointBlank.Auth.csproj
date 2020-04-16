@@ -49,5 +49,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PointBlank.IBO\PointBlank.IBO.csproj">
+      <Project>{fcf4f980-e6c5-48d8-8cf3-983ba3bc36a2}</Project>
+      <Name>PointBlank.IBO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PointBlank.OR\PointBlank.OR.csproj">
+      <Project>{d8942468-fd77-4c5e-aad1-8cd3492c3b82}</Project>
+      <Name>PointBlank.OR</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
