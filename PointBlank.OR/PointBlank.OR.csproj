@@ -67,6 +67,7 @@
     <Compile Include="Base\BaseNetwork.cs" />
     <Compile Include="Base\BaseOr.cs" />
     <Compile Include="Base\BaseSendPacket.cs" />
+    <Compile Include="Base\BaseTextFile.cs" />
     <Compile Include="Exceptions\PointBlankException.cs" />
     <Compile Include="Library\Logger.cs" />
     <Compile Include="Library\Util.cs" />
