@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
+    using System.Threading.Tasks;
     using Library;
     using Library.Exceptions;
 
@@ -106,17 +107,23 @@
             }
 
             // Enviar pacote individualmente
+            IList<Task> listaTarefas = new List<Task>();
             foreach (BaseClient client in this.ListaClientes)
             {
                 try
                 {
-                    client.SendPacket(packet);
+                    Task taskTmp = new Task(() => client.SendPacket(packet));
+                    taskTmp.Start();
+                    listaTarefas.Add(taskTmp);
                 }
                 catch (Exception exp)
                 {
                     Logger.Error(exp, "Envio de pacote para todos os jogadores", !(exp is PointBlankException));
                 }
             }
+
+            // Aguardar execução
+            Task.WaitAll(listaTarefas.ToArray());
         }
         #endregion
 
