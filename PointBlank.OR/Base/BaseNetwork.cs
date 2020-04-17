@@ -113,8 +113,8 @@
                 try
                 {
                     Task taskTmp = new Task(() => client.SendPacket(packet));
-                    taskTmp.Start();
                     listaTarefas.Add(taskTmp);
+                    taskTmp.Start();
                 }
                 catch (Exception exp)
                 {
