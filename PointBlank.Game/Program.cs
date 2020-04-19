@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Threading;
+    using Files;
     using OR.Library;
 
     /// <summary>
@@ -20,8 +21,11 @@
             try
             {
                 // Log de inicio
-                Logger.Info("Point Blank - Game");
+                Console.Title = "Point Blank - Game";
 
+                // Configurações
+                Logger.Info("Carregando arquivo de configurações");
+                ConfigFile configFile = new ConfigFile();
 
                 // Não finalizar o servidor
                 Process.GetCurrentProcess().WaitForExit();
