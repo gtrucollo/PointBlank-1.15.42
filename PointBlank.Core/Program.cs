@@ -1,9 +1,9 @@
 ﻿namespace PointBlank.Core
 {
-    using OR.Library;
     using System;
     using System.Diagnostics;
     using System.Threading;
+    using OR.Library;
 
     /// <summary>
     /// Classe Program
@@ -14,8 +14,7 @@
         /// <summary>
         /// Método Main
         /// </summary>
-        /// <param name="args">Parâmetro args</param>
-        public static void Main(string[] args)
+        public static void Main()
         {
             try
             {
