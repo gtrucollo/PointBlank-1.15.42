@@ -40,99 +40,30 @@
 
         #region Propriedades
         /// <summary>
-        /// Obtém ou define DatabaseHost
+        /// Obtém ou define CoreHost 
         /// </summary>
-        public string DatabaseHost
+        public string CoreHost
         {
             get
             {
-                return this.ObterValorArquivo(nameof(this.DatabaseHost));
+                return this.ObterValorArquivo(nameof(this.CoreHost));
             }
         }
 
         /// <summary>
-        /// Obtém ou define DatabaseName
+        /// Obtém ou define CorePort
         /// </summary>
-        public string DatabaseName
-        {
-            get
-            {
-                return this.ObterValorArquivo(nameof(this.DatabaseName));
-            }
-        }
-
-        /// <summary>
-        /// Obtém ou define DatabaseUser 
-        /// </summary>
-        public string DatabaseUser
-        {
-            get
-            {
-                return this.ObterValorArquivo(nameof(this.DatabaseUser));
-            }
-        }
-
-        /// <summary>
-        /// Obtém ou define DatabasePassword 
-        /// </summary>
-        public string DatabasePassword
-        {
-            get
-            {
-                return this.ObterValorArquivo(nameof(this.DatabasePassword));
-            }
-        }
-
-        /// <summary>
-        /// Obtém ou define DatabasePort 
-        /// </summary>
-        public int DatabasePort
+        public int CorePort
         {
             get
             {
                 try
                 {
-                    return Convert.ToInt32(this.ObterValorArquivo(nameof(this.DatabasePort)));
+                    return Convert.ToInt32(this.ObterValorArquivo(nameof(this.CorePort)));
                 }
                 catch
                 {
                     return 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Obtém o valor de ShowSql
-        /// </summary>
-        public bool ShowSql
-        {
-            get
-            {
-                try
-                {
-                    return Convert.ToBoolean(this.ObterValorArquivo(nameof(this.ShowSql)));
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Obtém o valor de ShowHex
-        /// </summary>
-        public bool ShowHex
-        {
-            get
-            {
-                try
-                {
-                    return Convert.ToBoolean(this.ObterValorArquivo(nameof(this.ShowHex)));
-                }
-                catch
-                {
-                    return false;
                 }
             }
         }

@@ -21,6 +21,68 @@
 
         #region Propriedades
         /// <summary>
+        /// Obtém ou define DatabaseHost
+        /// </summary>
+        public string DatabaseHost
+        {
+            get
+            {
+                return this.ObterValorArquivo(nameof(this.DatabaseHost));
+            }
+        }
+
+        /// <summary>
+        /// Obtém ou define DatabaseName
+        /// </summary>
+        public string DatabaseName
+        {
+            get
+            {
+                return this.ObterValorArquivo(nameof(this.DatabaseName));
+            }
+        }
+
+        /// <summary>
+        /// Obtém ou define DatabaseUser 
+        /// </summary>
+        public string DatabaseUser
+        {
+            get
+            {
+                return this.ObterValorArquivo(nameof(this.DatabaseUser));
+            }
+        }
+
+        /// <summary>
+        /// Obtém ou define DatabasePassword 
+        /// </summary>
+        public string DatabasePassword
+        {
+            get
+            {
+                return this.ObterValorArquivo(nameof(this.DatabasePassword));
+            }
+        }
+
+        /// <summary>
+        /// Obtém ou define DatabasePort 
+        /// </summary>
+        public int DatabasePort
+        {
+            get
+            {
+                try
+                {
+                    return Convert.ToInt32(this.ObterValorArquivo(nameof(this.DatabasePort)));
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+        }
+
+        /// <summary>
         /// Obtém ou define NetworkHost
         /// </summary>
         public string NetworkHost

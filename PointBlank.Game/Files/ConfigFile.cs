@@ -48,6 +48,42 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Obtém o valor de ShowSql
+        /// </summary>
+        public bool ShowSql
+        {
+            get
+            {
+                try
+                {
+                    return Convert.ToBoolean(this.ObterValorArquivo(nameof(this.ShowSql)));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Obtém o valor de ShowHex
+        /// </summary>
+        public bool ShowHex
+        {
+            get
+            {
+                try
+                {
+                    return Convert.ToBoolean(this.ObterValorArquivo(nameof(this.ShowHex)));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
         #endregion
 
         #region Métodos
