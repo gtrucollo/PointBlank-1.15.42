@@ -24,7 +24,7 @@
         /// <summary>
         /// Controle para a Sessão (Cliente)
         /// </summary>
-        public readonly TcpClient cliente;
+        public readonly TcpClient tcpClient;
 
         /// <summary>
         /// Controle para a Sessão (Cliente)
@@ -61,20 +61,20 @@
         /// <summary>
         /// Inicia uma nova instancia da classe <see cref="Client"/>
         /// </summary>
-        /// <param name="client">Sessão criada para a conexão</param>
+        /// <param name="tcpClient">Sessão criada para a conexão</param>
         /// <param name="sessionId">Session seed da conexao</param>
         /// <param name="showHex">Se true indica que é para mostrar os hex recebidos</param>
-        public BaseClient(TcpClient client, uint sessionId, bool showHex)
+        public BaseClient(TcpClient tcpClient, uint sessionId, bool showHex)
         {
             // Atualizar informações
-            this.cliente = client;
-            this.cliente.NoDelay = true;
-            this.cliente.ReceiveTimeout = BaseClient.TIMEOUT_VALUE;
-            this.cliente.SendTimeout = BaseClient.TIMEOUT_VALUE;
-            this.stream = this.cliente.GetStream();
+            this.tcpClient = tcpClient;
+            this.tcpClient.NoDelay = true;
+            this.tcpClient.ReceiveTimeout = BaseClient.TIMEOUT_VALUE;
+            this.tcpClient.SendTimeout = BaseClient.TIMEOUT_VALUE;
+            this.stream = this.tcpClient.GetStream();
             this.sessionId = sessionId;
             this.showHex = showHex;
-            this.remoteIPAddress = ((IPEndPoint)this.cliente.Client.RemoteEndPoint).Address.GetAddressBytes();
+            this.remoteIPAddress = ((IPEndPoint)this.tcpClient.Client.RemoteEndPoint).Address.GetAddressBytes();
             this.remoteUdpPort = 29890;
             this.buffer = new byte[2048];
 
@@ -243,9 +243,9 @@
             // Finalizar instancias
             try
             {
-                if (this.cliente != null)
+                if (this.tcpClient != null)
                 {
-                    this.cliente.Close();
+                    this.tcpClient.Close();
                 }
             }
             catch (Exception exp)
@@ -292,7 +292,7 @@
         }
 
         /// <summary>
-        /// Executa os Pacotes (Método Abstrato)
+        /// Executa os Pacotes
         /// </summary>
         /// <param name="buffer">Buffer Recebido</param>
         protected abstract void RunPacket(byte[] buffer);

@@ -131,36 +131,36 @@
         /// <summary>
         /// Criar conexão do cliente
         /// </summary>
-        /// <param name="client">TcpClient atual</param>
+        /// <param name="tcpClient">TcpClient atual</param>
         /// <param name="sessionId">Session id do cliente</param>
         /// <param name="showHex">Se true indica que é para mostrar os hex recebidos</param>
         /// <returns>O novo cliente</returns>
-        protected abstract BaseClient CriarCliente(TcpClient client, uint sessionId, bool showHex);
+        protected abstract BaseClient CriarCliente(TcpClient tcpClient, uint sessionId, bool showHex);
 
         /// <summary>
         /// Adicionar o novo cliente a lista de clientes conectados
         /// </summary>
-        /// <param name="newClient">Novo cliente conectado</param>
-        protected virtual bool AdicionarNovoCliente(BaseClient newClient)
+        /// <param name="novoCliente">Novo cliente conectado</param>
+        protected virtual bool AdicionarNovoCliente(BaseClient novoCliente)
         {
             try
             {
                 // Validar
-                if ((newClient == null) || (!newClient.cliente.Connected))
+                if ((novoCliente == null) || (!novoCliente.tcpClient.Connected))
                 {
                     return false;
                 }
 
-                BaseClient oldClient = this.ListaClientes.Where(x => x.sessionId == newClient.sessionId).FirstOrDefault();
+                BaseClient oldClient = this.ListaClientes.Where(x => x.sessionId == novoCliente.sessionId).FirstOrDefault();
                 switch (oldClient == null)
                 {
                     case true:
-                        this.ListaClientes.Add(newClient);
+                        this.ListaClientes.Add(novoCliente);
                         break;
 
                     default:
                         // Log de informação
-                        Logger.Info(string.Format("SessionId: {0} já conectado a conexão antiga foi finalizada!", newClient.sessionId));
+                        Logger.Info(string.Format("SessionId: {0} já conectado a conexão antiga foi finalizada!", novoCliente.sessionId));
 
                         // Remover cliente antiga
                         this.ListaClientes.Remove(oldClient);
@@ -169,12 +169,12 @@
                         oldClient.Dispose();
 
                         // Adicionar nova cliente
-                        this.ListaClientes.Add(newClient);
+                        this.ListaClientes.Add(novoCliente);
                         break;
                 }
 
                 // Log de informação
-                Logger.Info(string.Format("Novo cliente conectado: {0}{1}", Environment.NewLine, newClient.ToString()));
+                Logger.Info(string.Format("Novo cliente conectado: {0}{1}", Environment.NewLine, novoCliente.ToString()));
                 return true;
             }
             catch (Exception exp)
