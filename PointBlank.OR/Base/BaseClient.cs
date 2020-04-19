@@ -192,11 +192,16 @@
                     return;
                 }
 
-                byte[] babyBuffer = new byte[bytesCount];
-                Array.Copy(this.buffer, 0, babyBuffer, 0, bytesCount);
-                int length = BitConverter.ToUInt16(babyBuffer, 0) & 0x7FFF;
+                byte[] copyBuffer = new byte[bytesCount];
+                Array.Copy(this.buffer, 0, copyBuffer, 0, bytesCount);
+
+                int length = BitConverter.ToUInt16(copyBuffer, 0) & 0x7FFF;
+
+                // Obter dados
                 byte[] buffer = new byte[length + 2];
-                Array.Copy(babyBuffer, 2, buffer, 0, buffer.Length);
+                Array.Copy(copyBuffer, 2, buffer, 0, buffer.Length);
+
+                // Executar o pacote
                 this.RunPacket(this.Decrypt(buffer, this.Shift));
             }
             catch (Exception exp)
@@ -206,7 +211,7 @@
             finally
             {
                 // Sempre executar por ultimo (Inicia a nova leitura dos dados)
-                new Thread(() => ReadPacket()).Start();
+                new Thread(() => this.ReadPacket()).Start();
             }
         }
 
