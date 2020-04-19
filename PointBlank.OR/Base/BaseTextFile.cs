@@ -212,25 +212,11 @@
         /// <returns>O valor encontrado</returns>
         protected internal string ObterValorArquivo(string nomePropriedade)
         {
-            string retorno;
-            try
-            {
-                // Obter conteudo
-                FileControl valor = this.ListaValores.FirstOrDefault(x => x.Propriedade.Contains(nomePropriedade));
-                if (valor == null)
-                {
-                    return string.Empty;
-                }
-
-                retorno = valor.Valor;
-            }
-            catch
-            {
-                retorno = string.Empty;
-            }
+            // Obter configuração
+            FileControl valor = this.ListaValores.Where(x => x.Propriedade.Contains(nomePropriedade)).FirstOrDefault();
 
             // Retorno
-            return retorno;
+            return valor?.Valor ?? string.Empty;
         }
 
         /// <summary>
