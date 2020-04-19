@@ -224,17 +224,12 @@
         /// </summary>
         protected virtual void NovoArquivoInformacaoPadrao()
         {
+            // Informações padrão
             using (StreamWriter writer = this.file.CreateText())
             {
-                // Informações padrão
-                writer.WriteLine("; Configurações do Banco de Dados");
-                writer.WriteLine("DatabaseHost = localhost");
-                writer.WriteLine("DatabaseName = pb");
-                writer.WriteLine("DatabaseUser = postgres");
-                writer.WriteLine("DatabasePassword = postgres");
-                writer.WriteLine("DatabasePort = 5432");
-                writer.WriteLine("ShowSql = True");
-                writer.WriteLine("ShowHex = True");
+                writer.WriteLine("; Configurações de Conexão com o Servidor Core");
+                writer.WriteLine("CoreHost = 127.0.0.1");
+                writer.WriteLine("CorePort = 5900");
 
                 // Gerar informações personalizadas
                 this.NovoArquivoInformacaoPadraoPartial(writer);
