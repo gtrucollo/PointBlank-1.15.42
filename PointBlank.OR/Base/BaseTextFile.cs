@@ -46,7 +46,7 @@
         {
             get
             {
-                return this.ObterValorArquivo("DatabaseHost");
+                return this.ObterValorArquivo(nameof(this.DatabaseHost));
             }
         }
 
@@ -57,7 +57,7 @@
         {
             get
             {
-                return this.ObterValorArquivo("DatabaseName");
+                return this.ObterValorArquivo(nameof(this.DatabaseName));
             }
         }
 
@@ -68,7 +68,7 @@
         {
             get
             {
-                return this.ObterValorArquivo("DatabaseUser");
+                return this.ObterValorArquivo(nameof(this.DatabaseUser));
             }
         }
 
@@ -79,7 +79,7 @@
         {
             get
             {
-                return this.ObterValorArquivo("DatabasePassword");
+                return this.ObterValorArquivo(nameof(this.DatabasePassword));
             }
         }
 
@@ -92,7 +92,7 @@
             {
                 try
                 {
-                    return Convert.ToInt32(this.ObterValorArquivo("DatabasePort"));
+                    return Convert.ToInt32(this.ObterValorArquivo(nameof(this.DatabasePort)));
                 }
                 catch
                 {
@@ -110,7 +110,7 @@
             {
                 try
                 {
-                    return Convert.ToBoolean(this.ObterValorArquivo("ShowSql"));
+                    return Convert.ToBoolean(this.ObterValorArquivo(nameof(this.ShowSql)));
                 }
                 catch
                 {
@@ -128,7 +128,7 @@
             {
                 try
                 {
-                    return Convert.ToBoolean(this.ObterValorArquivo("ShowHex"));
+                    return Convert.ToBoolean(this.ObterValorArquivo(nameof(this.ShowHex)));
                 }
                 catch
                 {
