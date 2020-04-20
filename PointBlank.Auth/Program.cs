@@ -27,6 +27,8 @@
                 Logger.Info("Carregando arquivo de configurações");
                 ConfigFile configFile = new ConfigFile();
 
+                // Inicializar controles do WCF
+                IBO.Network.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
 
                 // Não finalizar o servidor
                 Process.GetCurrentProcess().WaitForExit();
