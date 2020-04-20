@@ -68,6 +68,10 @@
     <Compile Include="Base\BaseOr.cs" />
     <Compile Include="Base\BaseSendPacket.cs" />
     <Compile Include="Base\BaseTextFile.cs" />
+    <Compile Include="Database\Conta.cs" />
+    <Compile Include="Database\ContaMapping.cs">
+      <DependentUpon>Conta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Exceptions\PointBlankException.cs" />
     <Compile Include="Library\Logger.cs" />
     <Compile Include="Library\Util.cs" />

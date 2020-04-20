@@ -55,6 +55,10 @@
       <Project>{94abbfb6-4198-4eb7-9673-c66eb37ef73d}</Project>
       <Name>PointBlank.BO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PointBlank.IBO\PointBlank.IBO.csproj">
+      <Project>{fcf4f980-e6c5-48d8-8cf3-983ba3bc36a2}</Project>
+      <Name>PointBlank.IBO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PointBlank.OR\PointBlank.OR.csproj">
       <Project>{d8942468-fd77-4c5e-aad1-8cd3492c3b82}</Project>
       <Name>PointBlank.OR</Name>

@@ -69,6 +69,17 @@
         }
 
         /// <summary>
+        /// Obtém ou define CoreKey 
+        /// </summary>
+        public string CoreKey
+        {
+            get
+            {
+                return this.ObterValorArquivo(nameof(this.CoreKey));
+            }
+        }
+
+        /// <summary>
         /// Lista de Controle de valores do Arquivo
         /// </summary>
         private IList<FileControl> ListaValores
@@ -161,6 +172,7 @@
                 writer.WriteLine("; Configurações de Conexão com o Servidor Core");
                 writer.WriteLine("CoreHost = 127.0.0.1");
                 writer.WriteLine("CorePort = 5900");
+                writer.WriteLine("CoreKey = point_blank_best_emulator_ever");
 
                 // Gerar informações personalizadas
                 this.NovoArquivoInformacaoPadraoPartial(writer);

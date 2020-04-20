@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using IBO.Base;
     using NHibernate;
     using OR.Base;
     using OR.Library;
@@ -12,7 +13,7 @@
     /// Classe base para objetos BO's
     /// </summary>
     /// <typeparam name="TType">Tipo do objeto OR</typeparam>
-    public abstract class BaseBo<TType> : IDisposable where TType : BaseOr
+    public abstract class BaseBo<TType> : IBaseBo<TType>, IDisposable where TType : BaseOr
     {
         #region Campos
         /// <summary>

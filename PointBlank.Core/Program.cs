@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.Threading;
     using Files;
+    using IBO;
     using OR.Library;
 
     /// <summary>
@@ -26,6 +27,8 @@
                 Logger.Info("Carregando arquivo de configurações");
                 ConfigFile configFile = new ConfigFile();
 
+                // Atualizar dados a partir da configuração
+                Network.Inicializar(configFile.NetworkHost, configFile.NetworkPort, configFile.NetworkKey);
 
                 // Não finalizar o servidor
                 Process.GetCurrentProcess().WaitForExit();
