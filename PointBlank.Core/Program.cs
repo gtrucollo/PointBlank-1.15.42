@@ -6,6 +6,7 @@
     using Files;
     using IBO;
     using OR.Library;
+    using PointBlank.BO;
 
     /// <summary>
     /// Classe Program
@@ -28,9 +29,18 @@
                 ConfigFile configFile = new ConfigFile();
 
                 // Atualizar dados a partir da configuração
+                Logger.Info("Atualizando configurações de conexões");
                 Network.Inicializar(configFile.NetworkHost, configFile.NetworkPort, configFile.NetworkKey);
 
+                // Inicializar serviços (WCF)
+                Logger.Info("Inicializando canais WCF");
+                foreach (ServiceType servico in ServiceList.ListaServicos)
+                {
+                    Network.IncluirCanalWcfHost(servico);
+                }
+
                 // Não finalizar o servidor
+                Logger.Info("Servidor Inicializado");
                 Process.GetCurrentProcess().WaitForExit();
             }
             catch (ThreadAbortException)
