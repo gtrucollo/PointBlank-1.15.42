@@ -44,17 +44,19 @@
         /// <param name="sessaoControle">Sessão de controle a ser utilizada</param>
         public BaseBo(ISession sessaoControle)
         {
-            // Verificar se será criado uma nova sessão
-            if (sessaoControle == null)
+            // Opção de acordo com o parâmetro
+            switch (sessaoControle == null)
             {
-                this.sessaoControle = SessionManager.ObterNovaSessao();
-                this.sessaoPrivada = true;
-                return;
-            }
+                case true:
+                    this.sessaoControle = SessionManager.ObterNovaSessao();
+                    this.sessaoPrivada = true;
+                    break;
 
-            // Utilizar sessão compartilhada
-            this.sessaoControle = sessaoControle;
-            this.sessaoPrivada = false;
+                default:
+                    this.sessaoControle = sessaoControle;
+                    this.sessaoPrivada = false;
+                    break;
+            }
         }
         #endregion
 

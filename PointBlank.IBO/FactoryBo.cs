@@ -21,7 +21,7 @@
 
         #region Métodos
         /// <summary>
-        /// Obter IProprietarioParBo
+        /// Obter IContaBo
         /// </summary>
         /// <typeparam name="TReturn">Tipo do retorno</typeparam>
         /// <param name="code">Ação a ser executada</param>
@@ -32,6 +32,23 @@
             try
             {
                 return code(bo);
+            }
+            finally
+            {
+                Network.FecharCanalWcf((IClientChannel)bo);
+            }
+        }
+
+        /// <summary>
+        /// Obter IContaBo
+        /// </summary>
+        /// <param name="code">Ação a ser executada</param>
+        public static void Conta(Action<IContaBo> code)
+        {
+            IContaBo bo = FactoryBo.ContaBo;
+            try
+            {
+                code(bo);
             }
             finally
             {

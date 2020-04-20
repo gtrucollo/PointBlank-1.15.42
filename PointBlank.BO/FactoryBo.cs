@@ -1,7 +1,8 @@
 ﻿namespace PointBlank.BO
 {
-    using NHibernate;
     using System;
+    using Database;
+    using NHibernate;
 
     /// <summary>
     /// Classe que expõe os BO's.
@@ -13,6 +14,11 @@
         /// Sessão de controle
         /// </summary>
         private readonly ISession sessaoControle;
+
+        /// <summary>
+        /// Controle para contaBo
+        /// </summary>
+        private ContaBo contaBo;
         #endregion
 
         #region Construtor
@@ -41,6 +47,21 @@
         #endregion
 
         #region Propriedades
+        /// <summary>
+        /// Obtém o valor de ContaBo
+        /// </summary>
+        public ContaBo ContaBo
+        {
+            get
+            {
+                if (this.contaBo == null)
+                {
+                    this.contaBo = new ContaBo(this.sessaoControle);
+                }
+
+                return this.contaBo;
+            }
+        }
         #endregion
 
         #region Métodos
@@ -54,6 +75,16 @@
             {
                 this.sessaoControle.Dispose();
             }
+
+            // Dispose dos BO's
+            if (this.contaBo != null)
+            {
+                this.contaBo.Dispose();
+                this.contaBo = null;
+            }
+
+            // Formar limpeza da memoria
+            GC.Collect();
         }
         #endregion
         #endregion
