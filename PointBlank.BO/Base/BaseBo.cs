@@ -176,9 +176,6 @@
                 // Begin Transação
                 this.IniciarTransacao();
 
-                // Limpar dados de cache, se remover esse comando, em alguns casos da mensagem de erro que o objeto está desatualizado
-                this.SessaoControle.Clear();
-
                 // Atualizar
                 this.SessaoControle.SaveOrUpdate(objeto);
                 this.SessaoControle.Flush();
@@ -245,9 +242,6 @@
                 // Begin Transação
                 this.IniciarTransacao();
 
-                // Limpar dados de cache, se remover esse comando, em alguns casos da mensagem de erro que o objeto está desatualizado
-                this.SessaoControle.Clear();
-
                 // Excluir
                 this.SessaoControle.Delete(objeto);
                 this.SessaoControle.Flush();
@@ -259,9 +253,6 @@
             {
                 // Rollback Transação
                 this.CancelarTransacao();
-
-                // Limpar dados de cache
-                this.SessaoControle.Clear();
                 throw;
             }
         }
