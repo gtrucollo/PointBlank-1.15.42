@@ -167,7 +167,7 @@
             configurationTemp.SetProperty(Environment.Isolation, "ReadCommitted");
 
             // String de conexão
-            configurationTemp.SetProperty(Environment.ConnectionString, StringConexao);
+            configurationTemp.SetProperty(Environment.ConnectionString, SessionManager.StringConexao);
 
             // Proxy
             configurationTemp.SetProperty(Environment.ProxyFactoryFactoryClass, "NHibernate.Bytecode.DefaultProxyFactoryFactory, NHibernate");

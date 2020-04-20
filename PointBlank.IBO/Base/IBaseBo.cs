@@ -4,6 +4,7 @@
     using System.ServiceModel;
     using OR.Base;
 
+    [ServiceContract]
     public interface IBaseBo<TType> where TType : BaseOr
     {
         #region Insert e Update
