@@ -5,6 +5,7 @@
     using NHibernate;
     using NHibernate.Cfg;
     using NHibernate.Tool.hbm2ddl;
+    using OR.Database;
 
     /// <summary>
     /// NHibernate Session Management
@@ -113,6 +114,7 @@
                     IPersistenceConfigurer configurarDb = PostgreSQLConfiguration.PostgreSQL82.ConnectionString(StringConexao);
                     sessionFactory = Fluently.Configure(Configuration)
                         .Database(configurarDb)
+                        .Mappings(x => x.FluentMappings.AddFromAssemblyOf<ContaMapping>())
                         .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(true, true))
                         .BuildSessionFactory();
                 }

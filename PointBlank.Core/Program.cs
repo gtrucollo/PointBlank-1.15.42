@@ -28,6 +28,18 @@
                 Logger.Info("Carregando arquivo de configurações");
                 ConfigFile configFile = new ConfigFile();
 
+                // Banco de dados
+                Logger.Info("Atualizando configurações do banco de dados");
+                SessionManager.Servidor = configFile.DatabaseHost;
+                SessionManager.Porta = configFile.DatabasePort;
+                SessionManager.NomeUsuario = configFile.DatabaseUser;
+                SessionManager.Senha = configFile.DatabasePassword;
+                SessionManager.NomeBanco = configFile.DatabaseName;
+
+                // Obter nova sessão com banco de dados
+                Logger.Info("Inicializando sessão com o banco de dados");
+                SessionManager.ObterNovaSessao();
+
                 // Atualizar dados a partir da configuração
                 Logger.Info("Atualizando configurações de conexões");
                 Network.Inicializar(configFile.NetworkHost, configFile.NetworkPort, configFile.NetworkKey);
@@ -39,9 +51,7 @@
                     Network.IncluirCanalWcfHost(servico);
                 }
 
-                // Não finalizar o servidor
                 Logger.Info("Servidor Inicializado");
-                Process.GetCurrentProcess().WaitForExit();
             }
             catch (ThreadAbortException)
             {
@@ -51,6 +61,11 @@
             catch (Exception exp)
             {
                 Logger.Error(exp, "Ocorreu um erro e com isso as conexões serão finalizadas", true);
+            }
+            finally
+            {
+                // Não finalizar o servidor
+                Process.GetCurrentProcess().WaitForExit();
             }
         }
         #endregion
