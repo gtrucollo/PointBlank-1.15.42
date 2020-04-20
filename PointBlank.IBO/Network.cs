@@ -2,9 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
+    using System.ServiceModel.Security;
+    using OR.Library;
     using OR.Library.Exceptions;
 
     public static class Network
@@ -236,6 +239,126 @@
             catch (AddressAlreadyInUseException)
             {
                 throw new PointBlankException(string.Format("A porta {0} já está em uso. Verifique senão foi iniciado um outro serviço na mesma", Network.ConexaoPorta));
+            }
+        }
+
+        /// <summary>
+        /// Criar canal de comunicação Wcf
+        /// </summary>
+        /// <typeparam name="TChannel">Contrato wcf</typeparam>
+        /// <param name="enderecoUrl">Endereço url</param>
+        /// <param name="enderecoPorta">Endereço Porta</param>
+        /// <param name="chaveSeguranca">Chave de segurança (Descriptografada)</param>
+        /// <param name="netTcpBinding">Objeto NetTcpBinding</param>
+        /// <param name="nomeServico">Nome do serviço</param>
+        /// <param name="duplex">Identifica se é um canal duplex</param>
+        /// <param name="callBack">Eventos de callback para canal duplex</param>
+        /// <returns>Canal criado</returns>
+        public static TChannel CriarNovoCanalWcf<TChannel>(
+            string enderecoUrl,
+            int enderecoPorta,
+            Binding netTcpBinding,
+            string nomeServico,
+            bool duplex,
+            object callBack)
+        {
+            try
+            {
+                // Controle
+                EndpointAddress endPoint = new EndpointAddress(
+                    new Uri(string.Format("net.tcp://{0}:{1}/Genesis/{2}", enderecoUrl, enderecoPorta, nomeServico)),
+                    EndpointIdentity.CreateDnsIdentity("localhost"),
+                    new AddressHeaderCollection());
+
+                // ChannelFactory
+                ChannelFactory<TChannel> scf = null;
+                switch (duplex)
+                {
+                    case true:
+                        scf = new DuplexChannelFactory<TChannel>(new InstanceContext(callBack), netTcpBinding, endPoint);
+                        break;
+
+                    default:
+                        scf = new ChannelFactory<TChannel>(netTcpBinding, endPoint);
+                        break;
+                }
+
+                // Criar o canal de comunicação
+                TChannel canalRetorno = scf.CreateChannel();
+
+                // Retorno
+                return canalRetorno;
+            }
+            catch (PointBlankException)
+            {
+                throw;
+            }
+            catch (Exception exp)
+            {
+                // Erro gerado ao acionar o invoke do método de validação
+                if ((exp is TargetInvocationException) && (exp.InnerException != null))
+                {
+                    // Erro de segurança
+                    if ((exp.InnerException is MessageSecurityException) && (exp.InnerException.InnerException != null))
+                    {
+                        throw new PointBlankException(PointBlankException.GetMessageFull(exp.InnerException.InnerException, true));
+                    }
+
+                    // Identificar se foi erro de time-out
+                    if (exp.InnerException is TimeoutException)
+                    {
+                        throw new PointBlankException("Não foi possível conectar no servidor de aplicação (Erro de Timeout)");
+                    }
+
+                    throw new PointBlankException("Não foi possível conectar no servidor de aplicação.", exp.InnerException);
+                }
+
+                // Alterar tipo do exception para o padrão
+                throw new PointBlankException("Não foi possível conectar no servidor de aplicação!", exp);
+            }
+        }
+
+        /// <summary>
+        /// Criar canal de comunicação Wcf - Utilizando os dados padrões já informados
+        /// </summary>
+        /// <typeparam name="TChannel">Contrato wcf</typeparam>
+        /// <param name="nomeServico">Nome do serviço</param>
+        /// <param name="duplex">Identifica se é um canal duplex</param>
+        /// <param name="callBack">Eventos de callback para canal duplex</param>
+        /// <returns>Canal criado</returns>
+        public static TChannel CriarNovoCanalWcf<TChannel>(string nomeServico, bool duplex, object callBack)
+        {
+            return CriarNovoCanalWcf<TChannel>(
+                Network.ConexaoEndereco,
+                Network.ConexaoPorta,
+                Network.ObterNovoNetTcpBinding(),
+                nomeServico,
+                duplex,
+                callBack);
+        }
+
+        /// <summary>
+        /// Fechar um canal de comunicação Wcf
+        /// </summary>
+        /// <param name="canal">Canal wcf a ser fechado</param>
+        public static void FecharCanalWcf(IClientChannel canal)
+        {
+            try
+            {
+                canal.Abort();
+            }
+            catch
+            {
+                Logger.Info(string.Format("Não foi possível fechar o canal WCF ({0})", nameof(canal)));
+            }
+
+            try
+            {
+                canal.BeginClose(null, null);
+            }
+            catch
+            {
+                return;
             }
         }
 
