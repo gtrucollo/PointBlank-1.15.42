@@ -7,8 +7,7 @@
     using NHibernate.Tool.hbm2ddl;
 
     /// <summary>
-    /// NHibernate Session Management - Provides the bridge between
-    /// your application and NHibernate to the DAL
+    /// NHibernate Session Management
     /// </summary>
     public static class SessionManager
     {
