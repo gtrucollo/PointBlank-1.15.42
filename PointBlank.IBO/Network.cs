@@ -266,7 +266,7 @@
             {
                 // Controle
                 EndpointAddress endPoint = new EndpointAddress(
-                    new Uri(string.Format("net.tcp://{0}:{1}/Genesis/{2}", enderecoUrl, enderecoPorta, nomeServico)),
+                    new Uri(string.Format("net.tcp://{0}:{1}/PointBlankCore/{2}", enderecoUrl, enderecoPorta, nomeServico)),
                     EndpointIdentity.CreateDnsIdentity("localhost"),
                     new AddressHeaderCollection());
 
