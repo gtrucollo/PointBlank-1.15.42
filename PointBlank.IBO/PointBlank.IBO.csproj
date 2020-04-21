@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\IBaseBo.cs" />
+    <Compile Include="ControleEndpointBehavior.cs" />
     <Compile Include="Database\IContaBo.cs" />
+    <Compile Include="ErrorHandler.cs" />
     <Compile Include="FactoryBo.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,7 @@
     using System.Threading;
     using Files;
     using OR.Library;
+    using PointBlank.IBO;
 
     /// <summary>
     /// Classe Program
@@ -29,6 +30,11 @@
 
                 // Inicializar controles do WCF
                 IBO.Network.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
+
+                Thread.Sleep(1000);
+
+
+                FactoryBo.Conta(bo => bo.Delete(null));
 
                 // Não finalizar o servidor
                 Process.GetCurrentProcess().WaitForExit();

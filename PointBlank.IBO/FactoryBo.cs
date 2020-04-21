@@ -14,7 +14,7 @@
         {
             get
             {
-                return Network.CriarNovoCanalWcf<IContaBo>(nameof(ContaBo), false, null);
+                return Network.CriarNovoCanalWcf<IContaBo>("ContaBo", false, null);
             }
         }
         #endregion

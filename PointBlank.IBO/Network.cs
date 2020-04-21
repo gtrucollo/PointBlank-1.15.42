@@ -161,7 +161,7 @@
             }
 
             // Retorno
-            return new CustomBinding(netTcpBinding);
+            return netTcpBinding;
         }
 
         /// <summary>
@@ -221,7 +221,21 @@
 
                 // Instânciar um host para o serviço
                 ServiceHost host = new ServiceHost(servico.GetServiceType(false), new Uri[] { new Uri(enderecoTmp) });
+
+                // Controle endpoint
                 ServiceEndpoint endpoint = host.AddServiceEndpoint(servico.GetServiceType(true), Network.ObterNovoNetTcpBinding(), enderecoTmp);
+
+                // Controle/Interceptação da mensagens
+                endpoint.Behaviors.Add(new ControleEndpointBehavior());
+
+                // Opção para Metadados
+                ServiceMetadataBehavior metaData = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
+                if (metaData == null)
+                {
+                    metaData = new ServiceMetadataBehavior() { HttpGetEnabled = true };
+                    metaData.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
+                    host.Description.Behaviors.Add(metaData);
+                }
 
                 // Opção para repassar ao cliente a mensagem do erro
                 ServiceBehaviorAttribute debuggingBehavior = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();

@@ -237,6 +237,11 @@
         /// <param name="logInformacao">Informação adicional para o Log</param>
         public virtual void Delete(TType objeto)
         {
+            if (objeto is null)
+            {
+                return;
+            }
+
             try
             {
                 // Begin Transação
