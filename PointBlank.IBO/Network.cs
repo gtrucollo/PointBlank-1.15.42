@@ -228,15 +228,6 @@
                 // Controle/Interceptação da mensagens
                 endpoint.Behaviors.Add(new ControleEndpointBehavior());
 
-                // Opção para Metadados
-                ServiceMetadataBehavior metaData = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
-                if (metaData == null)
-                {
-                    metaData = new ServiceMetadataBehavior() { HttpGetEnabled = true };
-                    metaData.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
-                    host.Description.Behaviors.Add(metaData);
-                }
-
                 // Opção para repassar ao cliente a mensagem do erro
                 ServiceBehaviorAttribute debuggingBehavior = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
                 debuggingBehavior.IncludeExceptionDetailInFaults = true;
