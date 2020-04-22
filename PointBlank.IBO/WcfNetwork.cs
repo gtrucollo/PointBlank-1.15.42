@@ -312,7 +312,6 @@
                 // Criar o canal de comunicação
                 TChannel canalRetorno = scf.CreateChannel();
 
-
                 // Validar conexão
                 try
                 {
