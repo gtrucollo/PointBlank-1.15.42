@@ -5,6 +5,7 @@
     using OR.Base;
 
     [ServiceContract]
+    [ServiceKnownType(typeof(BaseOr))]
     public interface IBaseBo<TType> where TType : BaseOr
     {
         #region Insert e Update
@@ -41,7 +42,7 @@
         /// <summary>
         /// Método para identificar se o serviço está disponível
         /// </summary>
-        [OperationContract(Name = "ValidarServicoWcf")]
+        [OperationContract(Name = "ValidarServicoWcf_Base")]
         void ValidarServicoWcf();
         #endregion
     }

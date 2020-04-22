@@ -31,7 +31,7 @@
                 // Inicializar controles do WCF
                 WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
 
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
                 FactoryBo.Conta(bo => bo.Delete(null));
             }
             catch (ThreadAbortException)
