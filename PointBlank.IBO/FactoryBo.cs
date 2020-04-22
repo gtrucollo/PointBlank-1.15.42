@@ -14,7 +14,7 @@
         {
             get
             {
-                return Network.CriarNovoCanalWcf<IContaBo>("ContaBo", false, null);
+                return WcfNetwork.CriarNovoCanalWcf<IContaBo>("ContaBo", false, null);
             }
         }
         #endregion
@@ -35,7 +35,7 @@
             }
             finally
             {
-                Network.FecharCanalWcf((IClientChannel)bo);
+                WcfNetwork.FecharCanalWcf((IClientChannel)bo);
             }
         }
 
@@ -52,7 +52,7 @@
             }
             finally
             {
-                Network.FecharCanalWcf((IClientChannel)bo);
+                WcfNetwork.FecharCanalWcf((IClientChannel)bo);
             }
         }
         #endregion

@@ -10,7 +10,7 @@
     using OR.Library;
     using OR.Library.Exceptions;
 
-    public static class Network
+    public static class WcfNetwork
     {
         #region Constantes
         /// <summary>
@@ -33,7 +33,7 @@
         /// <summary>
         /// Controle ConexaoPorta
         /// </summary>
-        private static int conexaoPorta = Network.PORTA_CONEXAO;
+        private static int conexaoPorta = WcfNetwork.PORTA_CONEXAO;
 
         /// <summary>
         /// Controle para o time-out de conexão
@@ -54,12 +54,12 @@
         {
             get
             {
-                return Network.enderecoConexao;
+                return WcfNetwork.enderecoConexao;
             }
 
             set
             {
-                Network.enderecoConexao = value;
+                WcfNetwork.enderecoConexao = value;
             }
         }
 
@@ -70,12 +70,12 @@
         {
             get
             {
-                return Network.conexaoPorta;
+                return WcfNetwork.conexaoPorta;
             }
 
             set
             {
-                Network.conexaoPorta = value;
+                WcfNetwork.conexaoPorta = value;
             }
         }
 
@@ -91,12 +91,12 @@
         {
             get
             {
-                return Network.timeOut;
+                return WcfNetwork.timeOut;
             }
 
             set
             {
-                Network.timeOut = value;
+                WcfNetwork.timeOut = value;
             }
         }
 
@@ -107,12 +107,12 @@
         {
             get
             {
-                if (Network.listaHost == null)
+                if (WcfNetwork.listaHost == null)
                 {
-                    Network.listaHost = new List<ServiceHost>();
+                    WcfNetwork.listaHost = new List<ServiceHost>();
                 }
 
-                return Network.listaHost;
+                return WcfNetwork.listaHost;
             }
         }
         #endregion
@@ -143,14 +143,14 @@
             netTcpBinding.ListenBacklog = int.MaxValue;
 
             // Tempo de espera para receber os dados das requisições
-            netTcpBinding.SendTimeout = Network.TimeOut;
+            netTcpBinding.SendTimeout = WcfNetwork.TimeOut;
 
             // Tempo máximo que o canal permaneçe aberto sem nenhuma atividade (Requisições)
-            switch (Network.TimeOut > TimeSpan.FromMinutes(30))
+            switch (WcfNetwork.TimeOut > TimeSpan.FromMinutes(30))
             {
                 case true:
-                    netTcpBinding.ReceiveTimeout = Network.TimeOut; ;
-                    netTcpBinding.ReliableSession.InactivityTimeout = Network.TimeOut;
+                    netTcpBinding.ReceiveTimeout = WcfNetwork.TimeOut; ;
+                    netTcpBinding.ReliableSession.InactivityTimeout = WcfNetwork.TimeOut;
                     break;
 
                 default:
@@ -186,11 +186,11 @@
             httpBinding.MaxReceivedMessageSize = int.MaxValue;
 
             // Tempo máximo que o canal permaneçe aberto sem nenhuma atividade (Requisições)
-            switch (Network.TimeOut > TimeSpan.FromMinutes(30))
+            switch (WcfNetwork.TimeOut > TimeSpan.FromMinutes(30))
             {
                 case true:
-                    httpBinding.SendTimeout = Network.TimeOut;
-                    httpBinding.ReceiveTimeout = Network.TimeOut;
+                    httpBinding.SendTimeout = WcfNetwork.TimeOut;
+                    httpBinding.ReceiveTimeout = WcfNetwork.TimeOut;
                     break;
 
                 default:
@@ -215,15 +215,15 @@
                 // Endereço
                 string enderecoTmp = string.Format(
                     "net.tcp://{0}:{1}/PointBlankCore/{2}",
-                    Network.ConexaoEndereco,
-                    Network.ConexaoPorta,
+                    WcfNetwork.ConexaoEndereco,
+                    WcfNetwork.ConexaoPorta,
                     servico.GetServiceType(false).Name);
 
                 // Instânciar um host para o serviço
                 ServiceHost host = new ServiceHost(servico.GetServiceType(false), new Uri[] { new Uri(enderecoTmp) });
 
                 // Controle endpoint
-                ServiceEndpoint endpoint = host.AddServiceEndpoint(servico.GetServiceType(true), Network.ObterNovoNetTcpBinding(), enderecoTmp);
+                ServiceEndpoint endpoint = host.AddServiceEndpoint(servico.GetServiceType(true), WcfNetwork.ObterNovoNetTcpBinding(), enderecoTmp);
 
                 // Controle/Interceptação da mensagens
                 endpoint.Behaviors.Add(new ControleEndpointBehavior());
@@ -239,11 +239,11 @@
                 host.Open();
 
                 // Atualizar lista de controle
-                Network.ListaServiceHost.Add(host);
+                WcfNetwork.ListaServiceHost.Add(host);
             }
             catch (AddressAlreadyInUseException)
             {
-                throw new PointBlankException(string.Format("A porta {0} já está em uso. Verifique senão foi iniciado um outro serviço na mesma", Network.ConexaoPorta));
+                throw new PointBlankException(string.Format("A porta {0} já está em uso. Verifique senão foi iniciado um outro serviço na mesma", WcfNetwork.ConexaoPorta));
             }
         }
 
@@ -334,9 +334,9 @@
         public static TChannel CriarNovoCanalWcf<TChannel>(string nomeServico, bool duplex, object callBack)
         {
             return CriarNovoCanalWcf<TChannel>(
-                Network.ConexaoEndereco,
-                Network.ConexaoPorta,
-                Network.ObterNovoNetTcpBinding(),
+                WcfNetwork.ConexaoEndereco,
+                WcfNetwork.ConexaoPorta,
+                WcfNetwork.ObterNovoNetTcpBinding(),
                 nomeServico,
                 duplex,
                 callBack);
@@ -375,9 +375,9 @@
         /// <param name="chaveSeguranca">Chave de segurança</param>
         public static void Inicializar(string conexaoEndereco, int conexaoPorta, string chaveSeguranca)
         {
-            Network.ConexaoEndereco = conexaoEndereco;
-            Network.ConexaoPorta = conexaoPorta;
-            Network.ConexaoChaveSeguranca = chaveSeguranca;
+            WcfNetwork.ConexaoEndereco = conexaoEndereco;
+            WcfNetwork.ConexaoPorta = conexaoPorta;
+            WcfNetwork.ConexaoChaveSeguranca = chaveSeguranca;
         }
         #endregion
     }

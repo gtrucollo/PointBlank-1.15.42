@@ -29,7 +29,7 @@
                 ConfigFile configFile = new ConfigFile();
 
                 // Inicializar controles do WCF
-                IBO.Network.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
+                WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
 
                 Thread.Sleep(1000);
 

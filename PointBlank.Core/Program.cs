@@ -42,13 +42,13 @@
 
                 // Atualizar dados a partir da configuração
                 Logger.Info("Atualizando configurações de conexões");
-                Network.Inicializar(configFile.NetworkHost, configFile.NetworkPort, configFile.NetworkKey);
+                WcfNetwork.Inicializar(configFile.NetworkHost, configFile.NetworkPort, configFile.NetworkKey);
 
                 // Inicializar serviços (WCF)
                 Logger.Info("Inicializando canais WCF");
                 foreach (ServiceType servico in ServiceList.ListaServicos)
                 {
-                    Network.IncluirCanalWcfHost(servico);
+                    WcfNetwork.IncluirCanalWcfHost(servico);
                 }
 
                 Logger.Info("Servidor Inicializado");
