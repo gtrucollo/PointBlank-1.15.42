@@ -3,16 +3,16 @@
     using System.Net.Sockets;
     using OR.Base;
 
-    public class Network : BaseNetwork
+    public class GameNetwork : BaseNetwork
     {
         #region Construtor
         /// <summary>
-        /// Inicia uma nova instancia de <see cref="Network"/>
+        /// Inicia uma nova instancia de <see cref="GameNetwork"/>
         /// </summary>
         /// <param name="endereco">Endereço de conexão (Servidor)</param>
         /// <param name="porta">Porta de conexão (Servidor)</param>
         /// <param name="showHex">Se true indica que é para mostrar os hex recebidos</param>
-        public Network(string endereco, int porta, bool showHex)
+        public GameNetwork(string endereco, int porta, bool showHex)
             : base(endereco, porta, showHex)
         {
         }
@@ -22,7 +22,7 @@
         /// <inheritdoc/>
         protected override BaseClient CriarCliente(TcpClient tcpClient, uint sessionId, bool showHex)
         {
-            return new Client(tcpClient, sessionId, showHex);
+            return new GameClient(tcpClient, sessionId, showHex);
         }
         #endregion
     }

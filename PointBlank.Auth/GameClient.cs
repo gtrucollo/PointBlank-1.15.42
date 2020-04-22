@@ -1,19 +1,19 @@
-﻿namespace PointBlank.Game
+﻿namespace PointBlank.Auth
 {
     using System.Net.Sockets;
     using OR.Base;
     using OR.Library.Exceptions;
 
-    public class Client : BaseClient
+    public class GameClient : BaseClient
     {
         #region Construtor
         /// <summary>
-        /// Inicia uma nova instancia da classe <see cref="Client"/>
+        /// Inicia uma nova instancia da classe <see cref="GameClient"/>
         /// </summary>
         /// <param name="tcpClient">Sessão criada para a conexão</param>
         /// <param name="sessionSeed">Session seed da conexao</param>
         /// <param name="showHex">Se true indica que é para mostrar os hex recebidos</param>
-        public Client(TcpClient tcpClient, uint sessionId, bool showHex)
+        public GameClient(TcpClient tcpClient, uint sessionId, bool showHex)
             : base(tcpClient, sessionId, showHex)
         {
         }
