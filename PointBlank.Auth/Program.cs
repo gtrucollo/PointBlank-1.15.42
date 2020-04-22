@@ -4,8 +4,8 @@
     using System.Diagnostics;
     using System.Threading;
     using Files;
+    using IBO;
     using OR.Library;
-    using PointBlank.IBO;
 
     /// <summary>
     /// Classe Program
@@ -32,12 +32,7 @@
                 WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
 
                 Thread.Sleep(1000);
-
-
                 FactoryBo.Conta(bo => bo.Delete(null));
-
-                // Não finalizar o servidor
-                Process.GetCurrentProcess().WaitForExit();
             }
             catch (ThreadAbortException)
             {
@@ -47,6 +42,10 @@
             catch (Exception exp)
             {
                 Logger.Error(exp, "Ocorreu um erro e com isso as conexões serão finalizadas", true);
+            }
+            finally
+            {
+                Process.GetCurrentProcess().WaitForExit();
             }
         }
         #endregion

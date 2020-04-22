@@ -2,11 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Sockets;
     using System.Reflection;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.ServiceModel.Security;
+    using System.Threading;
     using OR.Library;
     using OR.Library.Exceptions;
 
@@ -165,43 +168,61 @@
         }
 
         /// <summary>
-        /// Gerar um novo objeto HttpBinding
+        /// Validar a conexão
         /// </summary>
-        /// <returns>Objeto HttpBinding</returns>
-        public static BasicHttpBinding ObterNovoHttpBinding()
+        /// <param name="communicationObject">Objeto ICommunicationObject</param>
+        /// <param name="enderecoUrl">Endereço url</param>
+        /// <param name="enderecoPorta">Endereço Porta</param>
+        /// <param name="validarMetodoBo">Identifica se será chamado o método 'ValidarServicoWcf' do BO</param>
+        private static void ValidarConexao(object communicationObject, string enderecoUrl, int enderecoPorta, bool validarMetodoBo)
         {
-            // Opções padrões
-            BasicHttpBinding httpBinding = new BasicHttpBinding(BasicHttpSecurityMode.None);
-
-            // ReaderQuotas
-            httpBinding.ReaderQuotas.MaxDepth = int.MaxValue;
-            httpBinding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
-            httpBinding.ReaderQuotas.MaxArrayLength = int.MaxValue;
-            httpBinding.ReaderQuotas.MaxBytesPerRead = int.MaxValue;
-            httpBinding.ReaderQuotas.MaxNameTableCharCount = int.MaxValue;
-
-            // Opções Diversas
-            httpBinding.MaxBufferSize = int.MaxValue;
-            httpBinding.MaxBufferPoolSize = int.MaxValue;
-            httpBinding.MaxReceivedMessageSize = int.MaxValue;
-
-            // Tempo máximo que o canal permaneçe aberto sem nenhuma atividade (Requisições)
-            switch (WcfNetwork.TimeOut > TimeSpan.FromMinutes(30))
+            // Verificar por Socket - Execução mais rápida
+            int contTentativa = 0;
+            while (true)
             {
-                case true:
-                    httpBinding.SendTimeout = WcfNetwork.TimeOut;
-                    httpBinding.ReceiveTimeout = WcfNetwork.TimeOut;
-                    break;
+                try
+                {
+                    using (TcpClient clienteTcp = new TcpClient())
+                    {
+                        IAsyncResult conexao = clienteTcp.BeginConnect(Dns.GetHostAddresses(enderecoUrl), enderecoPorta, null, null);
+                        conexao.AsyncWaitHandle.WaitOne(1000, false);
+                        if (clienteTcp.Connected)
+                        {
+                            // OK
+                            break;
+                        }
+                    }
 
-                default:
-                    // Tempo mínimo
-                    httpBinding.SendTimeout = TimeSpan.FromMinutes(30);
-                    httpBinding.ReceiveTimeout = TimeSpan.FromMinutes(30);
-                    break;
+                    // Não conectado
+                    throw new PointBlankException("Não conectado!");
+                }
+                catch
+                {
+                    contTentativa++;
+                    if (contTentativa > 4)
+                    {
+                        throw new PointBlankException("Não foi possível conectar no servidor de aplicação");
+                    }
+
+                    Thread.Sleep(100);
+                }
             }
 
-            // Retorno
-            return httpBinding;
+            // Identifica se deve ser chamado a função de validação do BO (Normalmente utilizada em canais que não são inicializados toda vez)
+            if (!validarMetodoBo)
+            {
+                return;
+            }
+
+            // Localizar método de validação adicional - Usa time-out do WCF
+            MethodInfo metodoTmp = communicationObject.GetType().GetMethod("ValidarServicoWcf");
+            if (metodoTmp == null)
+            {
+                throw new PointBlankException(string.Format("Não foi localizada a opção de validação para o canal wcf {0}", communicationObject.GetType().Name));
+            }
+
+            // Executar o método de validação
+            metodoTmp.Invoke(communicationObject, null);
         }
 
         /// <summary>
@@ -290,6 +311,26 @@
 
                 // Criar o canal de comunicação
                 TChannel canalRetorno = scf.CreateChannel();
+
+
+                // Validar conexão
+                try
+                {
+                    WcfNetwork.ValidarConexao(canalRetorno, enderecoUrl, enderecoPorta, false);
+                }
+                catch
+                {
+                    try
+                    {
+                        scf.Abort();
+                    }
+                    catch
+                    {
+                        Logger.Error("[WcfNetWork] - Erro ao Abortar o Canal WCF");
+                    }
+
+                    throw;
+                }
 
                 // Retorno
                 return canalRetorno;

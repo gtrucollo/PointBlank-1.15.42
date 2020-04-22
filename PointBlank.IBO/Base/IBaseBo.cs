@@ -36,5 +36,13 @@
         [OperationContract(Name = "Delete")]
         void Delete(TType objeto);
         #endregion
+
+        #region Controle WCF
+        /// <summary>
+        /// Método para identificar se o serviço está disponível
+        /// </summary>
+        [OperationContract(Name = "ValidarServicoWcf")]
+        void ValidarServicoWcf();
+        #endregion
     }
 }

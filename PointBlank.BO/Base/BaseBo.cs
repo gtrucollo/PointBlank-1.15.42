@@ -263,6 +263,16 @@
         }
         #endregion
 
+        #region Serviço WCF
+        /// <summary>
+        /// Método para identificar se o serviço está disponível
+        /// </summary>
+        public void ValidarServicoWcf()
+        {
+            return;
+        }
+        #endregion
+
         #region Outros
         /// <summary>
         /// Método Dispose
