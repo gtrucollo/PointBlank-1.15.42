@@ -2,7 +2,6 @@
 {
     using System.Net.Sockets;
     using OR.Game;
-    using OR.Library.Exceptions;
 
     public class GameClient : BaseClient
     {
@@ -21,9 +20,8 @@
 
         #region Métodos
         /// <inheritdoc/>
-        protected override void RunPacket(byte[] buffer)
+        protected override void RunPacketPartial(ushort opcode, byte[] buffer, ref BaseRecivePacket packet)
         {
-            throw new PointBlankException("Opção em desenvolvimento!");
         }
         #endregion
     }

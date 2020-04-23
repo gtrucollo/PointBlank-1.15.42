@@ -300,7 +300,49 @@
         /// Executa os Pacotes
         /// </summary>
         /// <param name="buffer">Buffer Recebido</param>
-        protected abstract void RunPacket(byte[] buffer);
+        protected virtual void RunPacket(byte[] buffer)
+        {
+            // Controles
+            ushort opcode = BitConverter.ToUInt16(buffer, 0);
+            BaseRecivePacket packet = null;
+
+            // Se true irá mostrar os hex recebidos
+            if (this.showHex)
+            {
+                Logger.Info(string.Format("Opcode: {0}", opcode));
+                Logger.Info(Util.BufferExtensions.ToHex(buffer));
+            }
+
+            try
+            {
+                this.RunPacketPartial(opcode, buffer, ref packet);
+                if (packet == null)
+                {
+                    throw new PointBlankException("Opcode não implementada");
+                }
+            }
+            catch (Exception expPacket)
+            {
+                Logger.Error(new PointBlankException(
+                    string.Format("[RunPacket] Erro na execução do pacote {0}{1}", packet?.GetType()?.Name, opcode), expPacket));
+            }
+            finally
+            {
+                // Limpar a memória (Pacote já foi processado)
+                if (packet != null)
+                {
+                    packet.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Executa os Pacotes
+        /// </summary>
+        /// <param name="opcode">Opcode do pacote recebidos</param>
+        /// <param name="buffer">Buffer Recebido</param>
+        /// <param name="packet">Pacote localizado</param>
+        protected abstract void RunPacketPartial(ushort opcode, byte[] buffer, ref BaseRecivePacket packet);
 
         /// <summary>
         /// Obtém informações da Client(Conexão)

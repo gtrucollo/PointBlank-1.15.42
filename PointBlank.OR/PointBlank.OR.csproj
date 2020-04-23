@@ -66,6 +66,7 @@
     <Compile Include="Game\BaseClient.cs" />
     <Compile Include="Game\BaseNetwork.cs" />
     <Compile Include="Base\BaseOr.cs" />
+    <Compile Include="Game\BaseRecivePacket.cs" />
     <Compile Include="Game\BaseSendPacket.cs" />
     <Compile Include="Base\BaseTextFile.cs" />
     <Compile Include="Database\Conta.cs" />
