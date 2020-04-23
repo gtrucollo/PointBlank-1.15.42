@@ -1,7 +1,6 @@
 ﻿namespace PointBlank.OR.Database
 {
     using System;
-    using System.ComponentModel;
     using Base;
 
     /// <summary>
@@ -18,19 +17,16 @@
             /// <summary>
             /// Status - Inativa
             /// </summary>
-            [Description("Conta Inativa")]
             Inativa = 0,
 
             /// <summary>
             /// Status - Ativa
             /// </summary>
-            [Description("Conta Ativa")]
             Ativa = 1,
 
             /// <summary>
             /// Status - Banida
             /// </summary>
-            [Description("Conta Banida")]
             Banida = 2
         }
         #endregion
