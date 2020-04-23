@@ -38,7 +38,15 @@
 
                 // Obter nova sessão com banco de dados
                 Logger.Info("Inicializando sessão com o banco de dados");
-                SessionManager.ObterNovaSessao();
+                try
+                {
+                    SessionManager.ObterNovaSessao();
+                }
+                catch (Exception exp)
+                {
+                    Logger.Error(exp, "Verifique as configurações de conexão com o banco de dados", false);
+                    return;
+                }
 
                 // Atualizar dados a partir da configuração
                 Logger.Info("Atualizando configurações de conexões");
