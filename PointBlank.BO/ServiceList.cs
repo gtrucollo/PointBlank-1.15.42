@@ -8,6 +8,9 @@
     public static class ServiceList
     {
         #region Propriedades
+        /// <summary>
+        /// Obtém o valor de ListaServicos
+        /// </summary>
         public static IList<ServiceType> ListaServicos
         {
             get
