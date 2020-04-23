@@ -16,7 +16,7 @@
         new void ValidarServicoWcf();
         #endregion
 
-        #region Implementações6
+        #region Implementações
         /// <summary>
         /// Obtém uma conta do banco de dados
         /// </summary>
