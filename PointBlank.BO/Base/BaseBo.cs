@@ -105,6 +105,17 @@
         }
         #endregion
 
+        #region Registros
+        /// <summary>
+        /// Obter o valor total de registros
+        /// </summary>
+        /// <returns>O Valor total de registros</returns>
+        public long ObterRelacaoTotal()
+        {
+            return this.SessaoControle.QueryOver<TType>().RowCountInt64();
+        }
+        #endregion
+
         #region Transações
         /// <summary>
         /// Inicia uma transação com o banco de dados.

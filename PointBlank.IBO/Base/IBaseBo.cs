@@ -34,7 +34,7 @@
         /// <param name="user">O usuário do controle de acesso</param>
         /// <param name="objeto">Parâmetro objeto</param>
         /// <param name="logInformacao">Informação adicional para o Log</param>
-        [OperationContract(Name = "Delete")]
+        [OperationContract]
         void Delete(TType objeto);
         #endregion
 
@@ -44,6 +44,15 @@
         /// </summary>
         [OperationContract(Name = "ValidarServicoWcf_Base")]
         void ValidarServicoWcf();
+        #endregion
+
+        #region Registros
+        /// <summary>
+        /// Obter o valor total de registros
+        /// </summary>
+        /// <returns>O Valor total de registros</returns>
+        [OperationContract]
+        long ObterRelacaoTotal();
         #endregion
     }
 }
