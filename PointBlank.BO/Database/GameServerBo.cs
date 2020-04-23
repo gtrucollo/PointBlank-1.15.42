@@ -1,5 +1,6 @@
 ﻿namespace PointBlank.BO.Database
 {
+    using System.Collections.Generic;
     using Base;
     using IBO.Database;
     using NHibernate;
@@ -26,6 +27,19 @@
         public GameServerBo(ISession sessaoControle)
             : base(sessaoControle)
         {
+        }
+        #endregion
+
+        #region Métodos
+        /// <summary>
+        /// Selecionar todos os registros do banco de dados
+        /// </summary>
+        /// <returns>A lista com os registros selecionados</returns>
+        public IList<GameServer> ObterRelacaoTodos()
+        {
+            return this.SessaoControle.QueryOver<GameServer>()
+                .OrderBy(x => x.IdGameServer).Asc
+                .List<GameServer>();
         }
         #endregion
     }

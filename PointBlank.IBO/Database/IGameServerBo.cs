@@ -1,7 +1,8 @@
 ﻿namespace PointBlank.IBO.Database
 {
+    using System.Collections.Generic;
     using System.ServiceModel;
-    using IBO.Base;
+    using Base;
     using OR.Database;
 
     [ServiceContract]
@@ -15,6 +16,14 @@
         /// </summary>
         [OperationContract]
         new void ValidarServicoWcf();
+        #endregion
+
+        #region Implementações
+        /// <summary>
+        /// Selecionar todos os registros do banco de dados
+        /// </summary>
+        /// <returns>A lista com os registros selecionados</returns>
+        IList<GameServer> ObterRelacaoTodos();
         #endregion
     }
 }
