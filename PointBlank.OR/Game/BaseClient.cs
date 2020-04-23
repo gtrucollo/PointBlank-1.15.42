@@ -321,10 +321,13 @@
                     throw new PointBlankException("Opcode não implementada");
                 }
             }
-            catch (Exception expPacket)
+            catch (Exception exp)
             {
                 Logger.Error(new PointBlankException(
-                    string.Format("[RunPacket] Erro na execução do pacote {0}{1}", packet?.GetType()?.Name, opcode), expPacket));
+                    string.Format(
+                        "[RunPacket] Erro na execução do pacote {0}",
+                        string.IsNullOrWhiteSpace(packet?.GetType()?.Name) ? opcode.ToString() : string.Format("{0}:{1}", packet?.GetType()?.Name, opcode)),
+                    exp));
             }
             finally
             {
