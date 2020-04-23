@@ -1,7 +1,9 @@
 ﻿namespace PointBlank.Auth
 {
     using System.Net.Sockets;
+    using IBO;
     using OR.Game;
+    using OR.Game.Packets.Ack;
 
     public class GameClient : BaseClient
     {
@@ -19,6 +21,12 @@
         #endregion
 
         #region Métodos
+        /// <inheritdoc/>
+        protected override void RunStartPacket()
+        {
+            this.SendPacket(new PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK(this, FactoryBo.GameServer(bo => bo.ObterRelacaoTodos())));
+        }
+
         /// <inheritdoc/>
         protected override void RunPacketPartial(ushort opcode, byte[] buffer, ref BaseRecivePacket packet)
         {
