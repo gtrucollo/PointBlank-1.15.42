@@ -29,7 +29,7 @@
                 ConfigFile configFile = new ConfigFile();
 
                 // Inicializar controles do WCF
-                WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
+                WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort);
 
                 // Validar Conexão
                 try

@@ -50,7 +50,7 @@
 
                 // Atualizar dados a partir da configuração
                 Logger.Info("Atualizando configurações de conexões");
-                WcfNetwork.Inicializar(configFile.NetworkHost, configFile.NetworkPort, configFile.NetworkKey);
+                WcfNetwork.Inicializar(configFile.NetworkHost, configFile.NetworkPort);
 
                 // Inicializar serviços (WCF)
                 Logger.Info("Inicializando canais WCF");

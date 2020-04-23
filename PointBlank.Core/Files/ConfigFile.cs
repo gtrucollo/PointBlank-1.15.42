@@ -110,17 +110,6 @@
                 }
             }
         }
-
-        /// <summary>
-        /// Obtém ou define NetworkKey
-        /// </summary>
-        public string NetworkKey
-        {
-            get
-            {
-                return this.ObterValorArquivo(nameof(NetworkKey));
-            }
-        }
         #endregion
 
         #region Métodos
@@ -143,7 +132,6 @@
                 writer.WriteLine("; Configurações do Core Server");
                 writer.WriteLine("NetworkHost = 127.0.0.1");
                 writer.WriteLine("NetworkPort = 5900");
-                writer.WriteLine("NetworkKey = point_blank_best_emulator_ever");
 
                 // Fechar o arquivo
                 writer.Flush();

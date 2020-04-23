@@ -83,11 +83,6 @@
         }
 
         /// <summary>
-        /// Obtém ou define ConexaoChaveSeguranca
-        /// </summary>
-        public static string ConexaoChaveSeguranca { get; set; }
-
-        /// <summary>
         /// Obtém ou define TimeOutEnvio
         /// </summary>
         public static TimeSpan TimeOut
@@ -408,11 +403,10 @@
         /// <param name="conexaoEndereco">Endereço de conexão</param>
         /// <param name="conexaoPorta">Porta de conexão</param>
         /// <param name="chaveSeguranca">Chave de segurança</param>
-        public static void Inicializar(string conexaoEndereco, int conexaoPorta, string chaveSeguranca)
+        public static void Inicializar(string conexaoEndereco, int conexaoPorta)
         {
             WcfNetwork.ConexaoEndereco = conexaoEndereco;
             WcfNetwork.ConexaoPorta = conexaoPorta;
-            WcfNetwork.ConexaoChaveSeguranca = chaveSeguranca;
         }
         #endregion
     }
