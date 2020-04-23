@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Base\BaseBo.cs" />
     <Compile Include="Database\ContaBo.cs" />
+    <Compile Include="Database\GameServerBo.cs" />
+    <Compile Include="Database\GameChannelBo.cs" />
     <Compile Include="FactoryBo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceList.cs" />

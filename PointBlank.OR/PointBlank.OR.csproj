@@ -63,6 +63,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\GameChannel.cs">
+      <DependentUpon>GameServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GameChannelMapping.cs">
+      <DependentUpon>GameChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GameServer.cs" />
+    <Compile Include="Database\GameServerMapping.cs">
+      <DependentUpon>GameServer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Game\BaseClient.cs" />
     <Compile Include="Game\BaseNetwork.cs" />
     <Compile Include="Base\BaseOr.cs" />
