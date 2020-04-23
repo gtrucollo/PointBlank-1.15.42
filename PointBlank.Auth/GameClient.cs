@@ -1,7 +1,7 @@
 ﻿namespace PointBlank.Auth
 {
     using System.Net.Sockets;
-    using OR.Base;
+    using OR.Game;
     using OR.Library.Exceptions;
 
     public class GameClient : BaseClient

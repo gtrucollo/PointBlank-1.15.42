@@ -1,7 +1,7 @@
 ﻿namespace PointBlank.Game
 {
     using System.Net.Sockets;
-    using OR.Base;
+    using OR.Game;
 
     public class GameNetwork : BaseNetwork
     {

@@ -1,4 +1,4 @@
-﻿namespace PointBlank.OR.Base
+﻿namespace PointBlank.OR.Game
 {
     using System;
     using System.Collections.Generic;
