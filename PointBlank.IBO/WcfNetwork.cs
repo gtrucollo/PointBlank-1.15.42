@@ -242,9 +242,6 @@
                 // Controle endpoint
                 ServiceEndpoint endpoint = host.AddServiceEndpoint(servico.GetServiceType(true), WcfNetwork.ObterNovoNetTcpBinding(), enderecoTmp);
 
-                // Controle/Interceptação da mensagens
-                endpoint.Behaviors.Add(new ControleEndpointBehavior());
-
                 // Opção para repassar ao cliente a mensagem do erro
                 ServiceBehaviorAttribute debuggingBehavior = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
                 debuggingBehavior.IncludeExceptionDetailInFaults = true;
