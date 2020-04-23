@@ -25,42 +25,42 @@
         #endregion
 
         #region Propriedades
-        #region Públicas
+        #region Privadas
         /// <summary>
         /// Configuration do Servidor
         /// </summary>
-        public static string Servidor { get; set; }
+        private static string Servidor { get; set; }
 
         /// <summary>
         /// Configuration do Porta
         /// </summary>
-        public static int Porta { get; set; }
+        private static int Porta { get; set; }
 
         /// <summary>
         /// Configuration do NomeUsuario
         /// </summary>
-        public static string NomeUsuario { get; set; }
+        private static string NomeUsuario { get; set; }
 
         /// <summary>
         /// Configuration do Senha
         /// </summary>
-        public static string Senha { get; set; }
+        private static string Senha { get; set; }
 
         /// <summary>
         /// Configuration do NomeBanco
         /// </summary>
-        public static string NomeBanco { get; set; }
+        private static string NomeBanco { get; set; }
 
         /// <summary>
         /// Obtém ou define um valor que indica que é ShowSql
         /// </summary>
-        public static bool ShowSql { get; set; }
+        private static bool ShowSql { get; set; }
 
         /// <summary>
         /// Obtém o valor de Configuration
         /// Retorna a configuração do NHibernate. Útil para acessos direto aos arquivos de mapeamentos (.hbm.xml).
         /// </summary>
-        public static Configuration Configuration
+        private static Configuration Configuration
         {
             get
             {
@@ -76,7 +76,7 @@
         /// <summary>
         /// Obtém o valor de StringConexao
         /// </summary>
-        public static string StringConexao
+        private static string StringConexao
         {
             get
             {
@@ -99,9 +99,7 @@
                     "Point Blank Emulatador (Core)");
             }
         }
-        #endregion
 
-        #region Privadas
         /// <summary>
         /// Obtém o valor de SessionFactory
         /// </summary>
@@ -127,6 +125,23 @@
 
         #region Métodos
         #region Publicos
+        /// <summary>
+        /// Inicializar as configurações de conexão com o banco de dados
+        /// </summary>
+        /// <param name="servidor">Endereço de conexão com banco de dados</param>
+        /// <param name="porta">Porta de conexão com banco de dados</param>
+        /// <param name="usuario">Usuário de conexão com banco de dados</param>
+        /// <param name="senha">Senha de conexão com o banco de dados</param>
+        /// <param name="nomeBanco">Nome do banco de dados</param>
+        public static void Inicializar(string servidor, int porta, string usuario, string senha, string nomeBanco)
+        {
+            SessionManager.Servidor = servidor;
+            SessionManager.Porta = porta;
+            SessionManager.NomeUsuario = usuario;
+            SessionManager.Senha = senha;
+            SessionManager.NomeBanco = nomeBanco;
+        }
+
         /// <summary>
         /// Retorna uma nova sessão
         /// </summary>

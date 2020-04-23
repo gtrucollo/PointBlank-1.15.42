@@ -30,11 +30,7 @@
 
                 // Banco de dados
                 Logger.Info("Atualizando configurações do banco de dados");
-                SessionManager.Servidor = configFile.DatabaseHost;
-                SessionManager.Porta = configFile.DatabasePort;
-                SessionManager.NomeUsuario = configFile.DatabaseUser;
-                SessionManager.Senha = configFile.DatabasePassword;
-                SessionManager.NomeBanco = configFile.DatabaseName;
+                SessionManager.Inicializar(configFile.DatabaseHost, configFile.DatabasePort, configFile.DatabaseUser, configFile.DatabasePassword, configFile.DatabaseName);
 
                 // Obter nova sessão com banco de dados
                 Logger.Info("Inicializando sessão com o banco de dados");
