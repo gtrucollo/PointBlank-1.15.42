@@ -95,7 +95,7 @@
         {
             writer.WriteLine("; Configurações do Game Server");
             writer.WriteLine("NetworkHost = 127.0.0.1");
-            writer.WriteLine("NetworkPort = 39191");
+            writer.WriteLine("NetworkPort = 39190");
         }
         #endregion
     }
