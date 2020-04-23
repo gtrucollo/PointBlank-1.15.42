@@ -34,7 +34,6 @@
                 // Validar Conexão
                 try
                 {
-                    Thread.Sleep(1000);
                     FactoryBo.Conta(bo => bo.ValidarServicoWcf());
                 }
                 catch (Exception exp)
