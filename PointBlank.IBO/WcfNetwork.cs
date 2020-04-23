@@ -147,20 +147,22 @@
             netTcpBinding.SendTimeout = WcfNetwork.TimeOut;
 
             // Tempo máximo que o canal permaneçe aberto sem nenhuma atividade (Requisições)
-            switch (WcfNetwork.TimeOut > TimeSpan.FromMinutes(30))
-            {
-                case true:
-                    netTcpBinding.ReceiveTimeout = WcfNetwork.TimeOut; ;
-                    break;
-
-                default:
-                    // Tempo mínimo
-                    netTcpBinding.ReceiveTimeout = TimeSpan.FromMinutes(30);
-                    break;
-            }
+            netTcpBinding.ReceiveTimeout = WcfNetwork.TimeOut;
 
             // Retorno
             return netTcpBinding;
+        }
+
+        /// <summary>
+        /// Validar a conexão
+        /// </summary>
+        /// <param name="communicationObject">Objeto ICommunicationObject</param>
+        /// <param name="enderecoUrl">Endereço url</param>
+        /// <param name="enderecoPorta">Endereço Porta</param>
+        /// <param name="validarMetodoBo">Identifica se será chamado o método 'ValidarServicoWcf' do BO</param>
+        public static void ValidarConexao(string enderecoUrl, int enderecoPorta)
+        {
+            WcfNetwork.ValidarConexao(null, enderecoUrl, enderecoPorta, false);
         }
 
         /// <summary>

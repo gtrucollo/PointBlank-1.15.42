@@ -34,7 +34,7 @@
                 // Validar Conexão
                 try
                 {
-                    FactoryBo.Conta(bo => bo.ValidarServicoWcf());
+                    WcfNetwork.ValidarConexao(configFile.CoreHost, configFile.CorePort);
                 }
                 catch (Exception exp)
                 {
