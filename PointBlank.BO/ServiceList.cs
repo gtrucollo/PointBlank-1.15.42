@@ -15,6 +15,8 @@
                 return new List<ServiceType>()
                 {
                     new ServiceType(typeof(ContaBo), typeof(IContaBo)),
+                    new ServiceType(typeof(GameChannelBo), typeof(IGameChannelBo)),
+                    new ServiceType(typeof(GameServerBo), typeof(IGameServerBo)),
                 };
             }
         }
