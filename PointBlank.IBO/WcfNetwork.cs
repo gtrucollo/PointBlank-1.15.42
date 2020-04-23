@@ -126,10 +126,10 @@
         /// </summary>
         /// <param name="conexaoSegura">Identifica se utiliza conexão segura</param>
         /// <returns>Objeto NetTcpBinding</returns>
-        public static Binding ObterNovoNetTcpBinding()
+        public static BasicHttpBinding ObterNovoNetTcpBinding()
         {
             // Opções padrões
-            NetTcpBinding netTcpBinding = new NetTcpBinding(SecurityMode.None, true);
+            BasicHttpBinding netTcpBinding = new BasicHttpBinding();
 
             // ReaderQuotas
             netTcpBinding.ReaderQuotas.MaxDepth = int.MaxValue;
@@ -142,8 +142,6 @@
             netTcpBinding.MaxBufferSize = int.MaxValue;
             netTcpBinding.MaxBufferPoolSize = int.MaxValue;
             netTcpBinding.MaxReceivedMessageSize = int.MaxValue;
-            netTcpBinding.MaxConnections = int.MaxValue;
-            netTcpBinding.ListenBacklog = int.MaxValue;
 
             // Tempo de espera para receber os dados das requisições
             netTcpBinding.SendTimeout = WcfNetwork.TimeOut;
@@ -153,13 +151,11 @@
             {
                 case true:
                     netTcpBinding.ReceiveTimeout = WcfNetwork.TimeOut; ;
-                    netTcpBinding.ReliableSession.InactivityTimeout = WcfNetwork.TimeOut;
                     break;
 
                 default:
                     // Tempo mínimo
                     netTcpBinding.ReceiveTimeout = TimeSpan.FromMinutes(30);
-                    netTcpBinding.ReliableSession.InactivityTimeout = TimeSpan.FromMinutes(30);
                     break;
             }
 
@@ -235,7 +231,7 @@
             {
                 // Endereço
                 string enderecoTmp = string.Format(
-                    "net.tcp://{0}:{1}/PointBlankCore/{2}",
+                    "http://{0}:{1}/PointBlankCore/{2}",
                     WcfNetwork.ConexaoEndereco,
                     WcfNetwork.ConexaoPorta,
                     servico.GetServiceType(false).Name);
@@ -292,7 +288,7 @@
             {
                 // Controle
                 EndpointAddress endPoint = new EndpointAddress(
-                    new Uri(string.Format("net.tcp://{0}:{1}/PointBlankCore/{2}", enderecoUrl, enderecoPorta, nomeServico)),
+                    new Uri(string.Format("http://{0}:{1}/PointBlankCore/{2}", enderecoUrl, enderecoPorta, nomeServico)),
                     EndpointIdentity.CreateDnsIdentity("localhost"),
                     new AddressHeaderCollection());
 
