@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.Threading;
     using Files;
+    using IBO;
     using OR.Library;
 
     /// <summary>
@@ -27,8 +28,22 @@
                 Logger.Info("Carregando arquivo de configurações");
                 ConfigFile configFile = new ConfigFile();
 
-                // Não finalizar o servidor
-                Process.GetCurrentProcess().WaitForExit();
+                // Inicializar controles do WCF
+                WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort);
+
+                // Validar Conexão
+                try
+                {
+                    WcfNetwork.ValidarConexao(configFile.CoreHost, configFile.CorePort);
+                }
+                catch (Exception exp)
+                {
+                    Logger.Error(exp, "Validar conexão com servidor (Core)", true);
+                    return;
+                }
+
+                // Inciar serviços do servidor
+                new GameNetwork(configFile.NetworkHost, configFile.NetworkPort, configFile.ShowHex);
             }
             catch (ThreadAbortException)
             {
@@ -38,6 +53,10 @@
             catch (Exception exp)
             {
                 Logger.Error(exp, "Ocorreu um erro e com isso as conexões serão finalizadas", true);
+            }
+            finally
+            {
+                Process.GetCurrentProcess().WaitForExit();
             }
         }
         #endregion
