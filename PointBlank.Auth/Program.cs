@@ -31,6 +31,18 @@
                 // Inicializar controles do WCF
                 WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
 
+                // Validar Conexão
+                try
+                {
+                    Thread.Sleep(1000);
+                    FactoryBo.Conta(bo => bo.ValidarServicoWcf());
+                }
+                catch (Exception exp)
+                {
+                    Logger.Error(exp, "Validar conexão com servidor (Core)", true);
+                    return;
+                }
+
                 // Inciar serviços do servidor
                 new GameNetwork(configFile.NetworkHost, configFile.NetworkPort, configFile.ShowHex);
             }
