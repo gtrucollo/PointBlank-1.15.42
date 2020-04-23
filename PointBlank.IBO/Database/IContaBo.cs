@@ -12,7 +12,7 @@
         /// <summary>
         /// Método para identificar se o serviço está disponível
         /// </summary>
-        [OperationContract()]
+        [OperationContract]
         new void ValidarServicoWcf();
         #endregion
 

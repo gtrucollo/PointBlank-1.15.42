@@ -30,6 +30,9 @@
 
                 // Inicializar controles do WCF
                 WcfNetwork.Inicializar(configFile.CoreHost, configFile.CorePort, configFile.CoreKey);
+
+                // Inciar serviços do servidor
+                new GameNetwork(configFile.NetworkHost, configFile.NetworkPort, configFile.ShowHex);
             }
             catch (ThreadAbortException)
             {
