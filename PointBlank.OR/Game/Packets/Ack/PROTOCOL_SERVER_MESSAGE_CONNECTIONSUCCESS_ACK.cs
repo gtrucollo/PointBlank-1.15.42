@@ -9,6 +9,7 @@
     /// <summary>
     /// Regras de negócio para gerenciamento da classe <see cref='PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK'/>
     /// </summary>
+    [SendPacket(Id = 2049)]
     public sealed class PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK : BaseSendPacket
     {
         #region Campos
@@ -29,7 +30,6 @@
         /// </summary>
         /// <param name="listaServers">Lista de Servidores</param>
         public PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK(BaseClient client, IList<GameServer> listaServers)
-            : base((short)2049)
         {
             // Atualizar informações
             this.client = client;

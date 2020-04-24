@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
@@ -126,18 +127,32 @@
 
             try
             {
-                packet.WriteStream();
-                byte[] packetBytes = packet.mstream.ToArray();
-                if (packetBytes.Length < 2)
+                // Obter opcode
+                ushort opcodeId = packet.GetType()
+                    .GetCustomAttributes(true)
+                    .Where(x => x != null)
+                    .OfType<SendPacketAttribute>()
+                    .ToList()
+                    .Select(x => x.Id)
+                    .FirstOrDefault();
+                if (opcodeId <= 0)
                 {
+                    Logger.Error(string.Format("Não foi informado o atributo 'SendPacket' com o valor da opcode para o pacote: {0}", nameof(packet)));
                     return;
                 }
+
+                // Adicionar opcode
+                byte[] bytes = BitConverter.GetBytes(opcodeId);
+                this.stream.Write(bytes, 0, bytes.Length);
+
+                // Adicionar dados do pacotr
+                packet.WriteStream();
+                byte[] packetBytes = packet.mstream.ToArray();
 
                 ushort size = Convert.ToUInt16(packetBytes.Length - 2);
                 List<byte> list = new List<byte>(packetBytes.Length + 2);
                 list.AddRange(BitConverter.GetBytes(size));
                 list.AddRange(packetBytes);
-
                 if (list.Count > 0)
                 {
                     this.stream.Write(list.ToArray(), 0, list.Count);

@@ -49,13 +49,14 @@
         /// <param name="ignorarBytes">Se False irá não será ignorardo bytes</param>
         public BaseRecivePacket(BaseClient cliente, byte[] buffer, bool ignorarBytes)
         {
+            if (this.cliente == null)
+            {
+                throw new PointBlankException("Não foi informado a conexão do cliente!");
+            }
+
             // Atualizar informações
             this.cliente = cliente;
             this.buffer = buffer;
-            if (this.cliente == null)
-            {
-                return;
-            }
 
             switch (ignorarBytes && (this.buffer.Length > 4))
             {

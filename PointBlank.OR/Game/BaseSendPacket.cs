@@ -10,27 +10,9 @@
     {
         #region Campos
         /// <summary>
-        /// Obtém o valor de protocol
-        /// </summary>
-        public short protocol;
-
-        /// <summary>
         /// Stream da memoria
         /// </summary>
         public MemoryStream mstream;
-        #endregion
-
-        #region Construtor
-        /// <summary>
-        /// Inicia uma nova instancia da classe <see cref="BaseSendPacket"/>
-        /// </summary>
-        public BaseSendPacket(short protocol)
-        {
-            this.protocol = protocol;
-            byte[] bytes = BitConverter.GetBytes(protocol);
-            this.mstream = new MemoryStream();
-            this.mstream.Write(bytes, 0, bytes.Length);
-        }
         #endregion
 
         #region Métodos
