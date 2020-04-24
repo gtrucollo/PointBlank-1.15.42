@@ -38,7 +38,7 @@
                 }
                 catch (Exception exp)
                 {
-                    Logger.Error(exp, "Validar conexão com servidor (Core)", true);
+                    Logger.Error(exp, "Validar conexão com servidor (Core)", false);
                     return;
                 }
 

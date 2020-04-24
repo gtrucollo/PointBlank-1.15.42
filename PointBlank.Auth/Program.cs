@@ -38,9 +38,13 @@
                 }
                 catch (Exception exp)
                 {
-                    Logger.Error(exp, "Validar conexão com servidor (Core)", true);
+                    Logger.Error(exp, "Validar conexão com servidor (Core)", false);
                     return;
                 }
+
+                // Criar/Verificar estrutura padrão
+                Logger.Info("Verificando necessidade de criação dos servidores");
+                FactoryBo.GameServer(bo => bo.CriarEstruturaPadrao(configFile.NetworkHost, configFile.NetworkPort));
 
                 // Inciar serviços do servidor
                 new GameNetwork(configFile.NetworkHost, configFile.NetworkPort, configFile.ShowHex);

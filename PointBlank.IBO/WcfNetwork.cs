@@ -187,14 +187,14 @@
                     }
 
                     // Não conectado
-                    throw new PointBlankException("Não conectado!");
+                    throw new PointBlankException("Servidor (Core) não incializado!");
                 }
                 catch
                 {
                     contTentativa++;
                     if (contTentativa > 4)
                     {
-                        throw new PointBlankException("Não foi possível conectar no servidor de aplicação");
+                        throw new PointBlankException("Não foi possível conectar no servidor (Core)");
                     }
 
                     Thread.Sleep(100);

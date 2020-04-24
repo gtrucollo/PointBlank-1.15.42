@@ -23,7 +23,16 @@
         /// Selecionar todos os registros do banco de dados
         /// </summary>
         /// <returns>A lista com os registros selecionados</returns>
+        [OperationContract]
         IList<GameServer> ObterRelacaoTodos();
+
+        /// <summary>
+        /// Criar a estrutura padrão dos servidores
+        /// </summary>
+        /// <param name="enderecoIp">Endereço de IP atual</param>
+        /// <param name="porta">Porta de conexão atual</param>
+        [OperationContract]
+        void CriarEstruturaPadrao(string enderecoIp, int porta);
         #endregion
     }
 }
