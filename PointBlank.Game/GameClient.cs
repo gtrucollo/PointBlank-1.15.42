@@ -10,7 +10,7 @@
         /// Inicia uma nova instancia da classe <see cref="GameClient"/>
         /// </summary>
         /// <param name="tcpClient">Sessão criada para a conexão</param>
-        /// <param name="sessionSeed">Session seed da conexao</param>
+        /// <param name="sessionId">SessionId da conexao</param>
         /// <param name="showHex">Se true indica que é para mostrar os hex recebidos</param>
         public GameClient(TcpClient tcpClient, uint sessionId, bool showHex)
             : base(tcpClient, sessionId, showHex)
