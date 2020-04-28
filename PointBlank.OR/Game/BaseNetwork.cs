@@ -215,7 +215,7 @@
                 }
 
                 // Aceitar novas conexões
-                this.server.BeginAcceptTcpClient(new AsyncCallback(AcceptCallback), this.server);
+                this.server.BeginAcceptTcpClient(new AsyncCallback(this.AcceptCallback), this.server);
             }
             catch (Exception exp)
             {
