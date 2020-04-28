@@ -1,7 +1,9 @@
 ﻿namespace PointBlank.Game
 {
     using System.Net.Sockets;
+    using System.Reflection;
     using OR.Game;
+    using OR.Game.Packets.Ack;
 
     public class GameClient : BaseClient
     {
@@ -20,8 +22,9 @@
 
         #region Métodos
         /// <inheritdoc/>
-        protected override void RunPacketPartial(ushort opcode, byte[] buffer, ref BaseRecivePacket packet)
+        protected override Assembly ObterAssemblyAtual()
         {
+            return typeof(PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK).Assembly;
         }
         #endregion
     }

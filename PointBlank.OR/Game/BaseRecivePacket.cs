@@ -30,24 +30,14 @@
         private readonly BinaryReader reader;
         #endregion
 
-        #region Construtores
-        /// <summary>
-        /// Inicia uma nova instancia de <see cref="BaseRecivePacket"/>
-        /// </summary>
-        /// <param name="cliente">Cliente atual</param>
-        /// <param name="buffer">Buffer recebido</param>
-        public BaseRecivePacket(BaseClient cliente, byte[] buffer)
-            : this(cliente, buffer, true)
-        {
-        }
-
+        #region Construtor
         /// <summary>
         /// Inicia uma nova instancia de <see cref="BaseRecivePacket"/>
         /// </summary>
         /// <param name="cliente">Cliente atual</param>
         /// <param name="buffer">Buffer recebido</param>
         /// <param name="ignorarBytes">Se False irá não será ignorardo bytes</param>
-        public BaseRecivePacket(BaseClient cliente, byte[] buffer, bool ignorarBytes)
+        public BaseRecivePacket(BaseClient cliente, byte[] buffer)
         {
             if (this.cliente == null)
             {
@@ -57,8 +47,7 @@
             // Atualizar informações
             this.cliente = cliente;
             this.buffer = buffer;
-
-            switch (ignorarBytes && (this.buffer.Length > 4))
+            switch (this.IgnorarBytes && (this.buffer.Length > 4))
             {
                 case true:
                     this.stream = new MemoryStream(this.buffer, 4, this.buffer.Length - 4);
@@ -70,6 +59,19 @@
             }
 
             this.reader = new BinaryReader(this.stream);
+        }
+        #endregion
+
+        #region Propriedades
+        /// <summary>
+        /// Obtém o valor de IgnorarBytes
+        /// </summary>
+        protected virtual bool IgnorarBytes
+        {
+            get
+            {
+                return false;
+            }
         }
         #endregion
 

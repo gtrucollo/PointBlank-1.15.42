@@ -1,6 +1,7 @@
 ﻿namespace PointBlank.Auth
 {
     using System.Net.Sockets;
+    using System.Reflection;
     using IBO;
     using OR.Game;
     using OR.Game.Packets.Ack;
@@ -28,8 +29,9 @@
         }
 
         /// <inheritdoc/>
-        protected override void RunPacketPartial(ushort opcode, byte[] buffer, ref BaseRecivePacket packet)
+        protected override Assembly ObterAssemblyAtual()
         {
+            return typeof(PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK).Assembly;
         }
         #endregion
     }

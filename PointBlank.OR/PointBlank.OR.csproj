@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Exceptions\PointBlankException.cs" />
     <Compile Include="Game\Packets\Ack\PROTOCOL_SERVER_MESSAGE_CONNECTIONSUCCESS_ACK.cs" />
+    <Compile Include="Game\RecivePacketAttribute.cs" />
     <Compile Include="Game\SendPacketAttribute.cs" />
     <Compile Include="Library\Logger.cs" />
     <Compile Include="Library\Util.cs" />

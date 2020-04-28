@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
+    using System.Reflection;
     using System.Threading;
     using Library;
     using Library.Exceptions;
@@ -137,8 +138,7 @@
                     .FirstOrDefault();
                 if (opcodeId <= 0)
                 {
-                    Logger.Error(string.Format("Não foi informado o atributo 'SendPacket' com o valor da opcode para o pacote: {0}", nameof(packet)));
-                    return;
+                    throw new PointBlankException("Não foi informado o atributo 'SendPacket'");
                 }
 
                 // Adicionar opcode
@@ -312,6 +312,12 @@
         }
 
         /// <summary>
+        /// Obtém o Assembly onde estão as classes
+        /// </summary>
+        /// <returns>O Assembly</returns>
+        protected abstract Assembly ObterAssemblyAtual();
+
+        /// <summary>
         /// Executa os Pacotes
         /// </summary>
         /// <param name="buffer">Buffer Recebido</param>
@@ -330,7 +336,24 @@
 
             try
             {
-                this.RunPacketPartial(opcode, buffer, ref packet);
+                // Localizar opcode no servidor
+                List<Type> listaClasses = Util.Classes.ObterClassesPorAtributo<RecivePacketAttribute>(this.ObterAssemblyAtual()).ToList();
+                foreach (Type item in listaClasses)
+                {
+                    RecivePacketAttribute recivePacketAttribute = item.GetCustomAttributes(true)
+                        .Where(y => y != null)
+                        .OfType<RecivePacketAttribute>()
+                        .ToList()
+                        .Where(z => z.Id == opcode).FirstOrDefault();
+                    if (recivePacketAttribute == null)
+                    {
+                        continue;
+                    }
+
+                    packet = (BaseRecivePacket)Activator.CreateInstance(item, this, buffer);
+                    break;
+                }
+
                 if (packet == null)
                 {
                     throw new PointBlankException("Opcode não implementada");
@@ -353,14 +376,6 @@
                 }
             }
         }
-
-        /// <summary>
-        /// Executa os Pacotes
-        /// </summary>
-        /// <param name="opcode">Opcode do pacote recebidos</param>
-        /// <param name="buffer">Buffer Recebido</param>
-        /// <param name="packet">Pacote localizado</param>
-        protected abstract void RunPacketPartial(ushort opcode, byte[] buffer, ref BaseRecivePacket packet);
 
         /// <summary>
         /// Obtém informações da Client(Conexão)

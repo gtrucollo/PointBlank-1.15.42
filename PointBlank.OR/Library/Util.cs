@@ -7,45 +7,36 @@
     using System.Reflection;
     using System.Runtime.Serialization;
     using System.Text;
-    using System.Xml;
 
     /// <summary>
     /// Regras de negócio para gerenciamento da classe <see cref='Util'/>
     /// </summary>
     public static class Util
     {
-        #region XML
+        #region Classes
         /// <summary>
-        /// Regras de negócio para gerenciamento da classe <see cref='XML'/>
+        /// Regras de negócio para gerenciamento da classe <see cref='Classes'/>
         /// </summary>
-        public static class XML
+        public static class Classes
         {
-            #region Métodos
             /// <summary>
-            /// Formatar um retorno Formato XML - Obter atributo
+            /// Obtém a lista de classes com determinado attributo
             /// </summary>
-            /// <param name="xmlNode">XmlNode a ser localizado o atributo</param>
-            /// <param name="nome">Nome do atributo</param>
-            /// <returns>Conteúdo do atributo</returns>
-            public static string ObterValorAtributo(XmlNode xmlNode, string nome)
+            /// <param name="assembly">Caminho para o assembly a ser pesquisado</param>
+            /// <param name="attributo">Attributo a ser procurado</param>
+            /// <returns>A lista de classes encontradas</returns>
+            public static IEnumerable<Type> ObterClassesPorAtributo<Attribute>(Assembly assembly)
             {
-                try
+                foreach (Type type in assembly.GetTypes())
                 {
-                    XmlNode xmlNodeChield = xmlNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == nome);
-                    if (xmlNodeChield == null)
+                    if (type.GetCustomAttributes(typeof(Attribute), true).Length > 0)
                     {
-                        return string.Empty;
+                        yield return type;
                     }
-
-                    return xmlNodeChield.InnerText;
-                }
-                catch
-                {
-                    return string.Empty;
                 }
             }
-            #endregion
         }
+
         #endregion
 
         #region Enumerador
