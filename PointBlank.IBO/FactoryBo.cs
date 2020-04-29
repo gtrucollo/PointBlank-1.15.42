@@ -14,7 +14,7 @@
         {
             get
             {
-                return WcfNetwork.CriarNovoCanalWcf<IContaBo>("ContaBo", false, null);
+                return WcfNetwork.CriarNovoCanalWcf<IContaBo>(nameof(ContaBo), false, null);
             }
         }
 
@@ -25,7 +25,7 @@
         {
             get
             {
-                return WcfNetwork.CriarNovoCanalWcf<IGameServerBo>("GameServerBo", false, null);
+                return WcfNetwork.CriarNovoCanalWcf<IGameServerBo>(nameof(GameServerBo), false, null);
             }
         }
 
@@ -36,7 +36,7 @@
         {
             get
             {
-                return WcfNetwork.CriarNovoCanalWcf<IGameChannelBo>("GameChannelBo", false, null);
+                return WcfNetwork.CriarNovoCanalWcf<IGameChannelBo>(nameof(GameChannelBo), false, null);
             }
         }
         #endregion

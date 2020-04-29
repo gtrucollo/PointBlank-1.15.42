@@ -1,11 +1,13 @@
 ﻿namespace PointBlank.Auth
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading;
     using Files;
     using IBO;
     using OR.Library;
+    using PointBlank.OR.Database;
 
     /// <summary>
     /// Classe Program
@@ -45,6 +47,9 @@
                 // Criar/Verificar estrutura padrão
                 Logger.Info("Verificando necessidade de criação dos servidores");
                 FactoryBo.GameServer(bo => bo.CriarEstruturaPadrao(configFile.NetworkHost, configFile.NetworkPort));
+
+                // Teste
+                IList<GameServer> listaTmp = FactoryBo.GameServer(bo => bo.ObterRelacaoTodos());
 
                 // Inciar serviços do servidor
                 new GameNetwork(configFile.NetworkHost, configFile.NetworkPort, configFile.ShowHex);

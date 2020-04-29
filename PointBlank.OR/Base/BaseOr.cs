@@ -1,8 +1,8 @@
 ﻿namespace PointBlank.OR.Base
 {
-    using NHibernate.Collection.Generic;
     using System;
     using System.Collections.Generic;
+    using NHibernate.Collection.Generic;
 
     /// <summary>
     /// Classe base para objetos OR's

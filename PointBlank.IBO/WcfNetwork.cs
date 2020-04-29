@@ -41,7 +41,7 @@
         /// <summary>
         /// Controle para o time-out de conexão
         /// </summary>
-        private static TimeSpan timeOut = new TimeSpan(0, 1, 0);
+        private static TimeSpan timeOut = new TimeSpan(0, 5, 0);
 
         /// <summary>
         /// Controle para a lista de host's
@@ -117,35 +117,16 @@
 
         #region Métodos
         /// <summary>
-        /// Gerar um novo objeto NetTcpBinding
+        /// Gerar um novo objeto ObterNovoNetTcpBinding
         /// </summary>
-        /// <param name="conexaoSegura">Identifica se utiliza conexão segura</param>
-        /// <returns>Objeto NetTcpBinding</returns>
-        public static BasicHttpBinding ObterNovoNetTcpBinding()
+        /// <returns>Objeto BasicHttpBinding</returns>
+        public static NetTcpBinding ObterNovoNetTcpBinding()
         {
-            // Opções padrões
-            BasicHttpBinding netTcpBinding = new BasicHttpBinding();
-
-            // ReaderQuotas
-            netTcpBinding.ReaderQuotas.MaxDepth = int.MaxValue;
-            netTcpBinding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
-            netTcpBinding.ReaderQuotas.MaxArrayLength = int.MaxValue;
-            netTcpBinding.ReaderQuotas.MaxBytesPerRead = int.MaxValue;
-            netTcpBinding.ReaderQuotas.MaxNameTableCharCount = int.MaxValue;
-
-            // Opções Diversas
-            netTcpBinding.MaxBufferSize = int.MaxValue;
-            netTcpBinding.MaxBufferPoolSize = int.MaxValue;
-            netTcpBinding.MaxReceivedMessageSize = int.MaxValue;
-
-            // Tempo de espera para receber os dados das requisições
-            netTcpBinding.SendTimeout = WcfNetwork.TimeOut;
-
-            // Tempo máximo que o canal permaneçe aberto sem nenhuma atividade (Requisições)
-            netTcpBinding.ReceiveTimeout = WcfNetwork.TimeOut;
-
-            // Retorno
-            return netTcpBinding;
+            return new NetTcpBinding
+            {
+                SendTimeout = WcfNetwork.TimeOut,
+                ReceiveTimeout = WcfNetwork.TimeOut
+            };
         }
 
         /// <summary>
@@ -169,7 +150,6 @@
         /// <param name="validarMetodoBo">Identifica se será chamado o método 'ValidarServicoWcf' do BO</param>
         private static void ValidarConexao(object communicationObject, string enderecoUrl, int enderecoPorta, bool validarMetodoBo)
         {
-            // Verificar por Socket - Execução mais rápida
             int contTentativa = 0;
             while (true)
             {
@@ -192,7 +172,7 @@
                 catch
                 {
                     contTentativa++;
-                    if (contTentativa > 4)
+                    if (contTentativa > 10)
                     {
                         throw new PointBlankException("Não foi possível conectar no servidor (Core)");
                     }
@@ -227,24 +207,17 @@
             try
             {
                 // Endereço
-                string enderecoTmp = string.Format(
-                    "http://{0}:{1}/PointBlankCore/{2}",
-                    WcfNetwork.ConexaoEndereco,
-                    WcfNetwork.ConexaoPorta,
-                    servico.GetServiceType(false).Name);
+                string enderecoTmp = string.Format("net.tcp://{0}:{1}/PointBlankCore/{2}", WcfNetwork.ConexaoEndereco, WcfNetwork.ConexaoPorta, servico.GetServiceType(false).Name);
 
                 // Instânciar um host para o serviço
                 ServiceHost host = new ServiceHost(servico.GetServiceType(false), new Uri[] { new Uri(enderecoTmp) });
 
+                ServiceBehaviorAttribute serviceBehavior = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
+                serviceBehavior.IncludeExceptionDetailInFaults = true;
+
                 // Controle endpoint
-                ServiceEndpoint endpoint = host.AddServiceEndpoint(servico.GetServiceType(true), WcfNetwork.ObterNovoNetTcpBinding(), enderecoTmp);
-
-                // Opção para repassar ao cliente a mensagem do erro
-                ServiceBehaviorAttribute debuggingBehavior = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
-                debuggingBehavior.IncludeExceptionDetailInFaults = true;
-
-                // Total de conexões
-                host.Description.Behaviors.Add(new ServiceThrottlingBehavior() { MaxConcurrentSessions = int.MaxValue, MaxConcurrentCalls = int.MaxValue, MaxConcurrentInstances = int.MaxValue });
+                host.AddServiceEndpoint(servico.GetServiceType(true), WcfNetwork.ObterNovoNetTcpBinding(), enderecoTmp);
+                host.Description.Behaviors.Add(new ServiceThrottlingBehavior() { MaxConcurrentCalls = int.MaxValue, MaxConcurrentInstances = int.MaxValue, MaxConcurrentSessions = int.MaxValue });
 
                 // Abrir o serviço
                 host.Open();
@@ -265,7 +238,7 @@
         /// <param name="enderecoUrl">Endereço url</param>
         /// <param name="enderecoPorta">Endereço Porta</param>
         /// <param name="chaveSeguranca">Chave de segurança (Descriptografada)</param>
-        /// <param name="netTcpBinding">Objeto NetTcpBinding</param>
+        /// <param name="httpBinding">Objeto NetTcpBinding</param>
         /// <param name="nomeServico">Nome do serviço</param>
         /// <param name="duplex">Identifica se é um canal duplex</param>
         /// <param name="callBack">Eventos de callback para canal duplex</param>
@@ -273,7 +246,7 @@
         public static TChannel CriarNovoCanalWcf<TChannel>(
             string enderecoUrl,
             int enderecoPorta,
-            Binding netTcpBinding,
+            Binding httpBinding,
             string nomeServico,
             bool duplex,
             object callBack)
@@ -281,21 +254,18 @@
             try
             {
                 // Controle
-                EndpointAddress endPoint = new EndpointAddress(
-                    new Uri(string.Format("http://{0}:{1}/PointBlankCore/{2}", enderecoUrl, enderecoPorta, nomeServico)),
-                    EndpointIdentity.CreateDnsIdentity("localhost"),
-                    new AddressHeaderCollection());
+                EndpointAddress endPoint = new EndpointAddress(new Uri(string.Format("net.tcp://{0}:{1}/PointBlankCore/{2}", enderecoUrl, enderecoPorta, nomeServico)));
 
                 // ChannelFactory
                 ChannelFactory<TChannel> scf = null;
                 switch (duplex)
                 {
                     case true:
-                        scf = new DuplexChannelFactory<TChannel>(new InstanceContext(callBack), netTcpBinding, endPoint);
+                        scf = new DuplexChannelFactory<TChannel>(new InstanceContext(callBack), httpBinding, endPoint);
                         break;
 
                     default:
-                        scf = new ChannelFactory<TChannel>(netTcpBinding, endPoint);
+                        scf = new ChannelFactory<TChannel>(httpBinding, endPoint);
                         break;
                 }
 

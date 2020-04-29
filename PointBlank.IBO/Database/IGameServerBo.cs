@@ -6,8 +6,6 @@
     using OR.Database;
 
     [ServiceContract]
-    [ServiceKnownType(typeof(GameServer))]
-    [ServiceKnownType(typeof(GameChannel))]
     public interface IGameServerBo : IBaseBo<GameServer>
     {
         #region Controle WCF

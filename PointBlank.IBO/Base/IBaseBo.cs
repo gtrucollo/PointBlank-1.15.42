@@ -5,7 +5,6 @@
     using OR.Base;
 
     [ServiceContract]
-    [ServiceKnownType(typeof(BaseOr))]
     public interface IBaseBo<TType> where TType : BaseOr
     {
         #region Insert e Update
